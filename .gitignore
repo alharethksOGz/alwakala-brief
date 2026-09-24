@@ -1,0 +1,11 @@
+# Only the published site goes in this repo. Codes and the readable brief live in ../private and never get committed.
+*
+!.gitignore
+!.nojekyll
+!index.html
+!favicon.svg
+!robots.txt
+!assets/
+!assets/*.jpg
+!assets/*.mp4
+!assets/*.bin
