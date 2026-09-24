@@ -9,3 +9,5 @@
 !assets/*.jpg
 !assets/*.mp4
 !assets/*.bin
+!assets/films/
+!assets/films/*.mp4
