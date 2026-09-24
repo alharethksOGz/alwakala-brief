@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>الوكالة.ai · لوحة الـBrief</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--ink0:#141312;--ink:#1C1C1B;--paper:#EDEDEA;--g1:#DCDCD7;--g2:#BDBDB8;--g3:#8C8C88;--m:#FF0A8C;--grn:#2E9E6B;--line:#3C3C39;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink0);color:var(--paper);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;padding:28px 16px 60px}
+h1{font-size:26px;margin:0 0 6px}h1 b{color:var(--m)}
+.sub{color:var(--g2);margin:0 0 22px;font-size:15px}
+.wrap{max-width:1100px;margin:0 auto}
+.gate{display:flex;gap:8px;max-width:420px}
+.gate input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--ink);color:#F7F7F5;border-radius:999px;padding:12px 16px;font:700 18px "JetBrains Mono",monospace;letter-spacing:.1em;text-align:center;text-transform:uppercase;direction:ltr}
+.gate button,.tb{border:0;border-radius:999px;background:var(--m);color:#1C1C1B;font:800 16px inherit;padding:0 22px;cursor:pointer;font-family:inherit}
+.msg{color:#FFB8D9;min-height:1.6em;margin-top:10px;font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:22px 0}
+.card{background:var(--ink);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.card .n{font:800 34px Archivo,sans-serif;color:var(--m);direction:ltr}
+.card p{margin:4px 0 0;color:var(--g2);font-size:14px}
+h2{font-size:19px;margin:26px 0 10px}
+table{width:100%;border-collapse:collapse;background:var(--ink);border-radius:16px;overflow:hidden;font-size:15px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+th{color:var(--g3);font-weight:600;font-size:13px}
+td.n{font-family:Archivo,sans-serif;font-weight:700;direction:ltr;text-align:right}
+.tag{display:inline-block;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700}
+.tag.in{background:var(--grn);color:#fff}.tag.later{background:var(--g1);color:#1C1C1B}
+.hint{color:var(--g3);font-size:13px;margin-top:12px}
+.tools{display:flex;gap:10px;align-items:center;margin-top:8px}
+.tb.ghost{background:transparent;color:var(--paper);border:1.5px solid var(--line);min-height:40px}
+[hidden]{display:none!important}
+@media (max-width:700px){table{font-size:13px}th,td{padding:8px 6px}.hidem{display:none}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>لوحة الـ<b>Brief</b></h1>
+<p class="sub">من فتح الـBrief، متى، كم مرة، كم جلس، وش شاف، ووش جاوب. تتحدّث كل ما تفتحها.</p>
+<form class="gate" id="g"><input id="code" placeholder="كود المالك" autocomplete="off"><button type="submit">ادخل</button></form>
+<p class="msg" id="msg"></p>
+<div id="dash" hidden>
+  <div class="cards" id="cards"></div>
+  <div class="tools"><button type="button" class="tb ghost" id="refresh">تحديث</button><span class="hint" id="upd"></span></div>
+  <h2>لكل مدير إبداعي</h2>
+  <table><thead><tr><th>الكود</th><th>الزيارات</th><th>الوقت</th><th class="hidem">أول مرة</th><th>آخر مرة</th><th class="hidem">وصل لين</th><th class="hidem">أفلام</th><th>الجواب</th></tr></thead><tbody id="bycd"></tbody></table>
+  <h2>الأجوبة</h2>
+  <table><thead><tr><th>الكود</th><th>الجواب</th><th>الملاحظة</th><th>الوقت</th></tr></thead><tbody id="rsvp"></tbody></table>
+  <h2>كل الزيارات</h2>
+  <table><thead><tr><th>الكود</th><th>البداية</th><th>المدة</th><th class="hidem">وصل لين</th><th class="hidem">أفلام</th><th class="hidem">الجهاز</th></tr></thead><tbody id="sess"></tbody></table>
+  <p class="hint">«وصل لين»: 0 البداية … 10 الـBrief نفسه (11 من 11 في الشارع). المدة = ثواني الصفحة وهي ظاهرة على الشاشة. OWNER = أنت، ARTIFACT = نسخة claude.ai بدون كود.</p>
+</div>
+</div>
+<script>
+(function(){
+var URL_='https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/brief_dashboard',KEY='sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo';
+var $=function(s){return document.querySelector(s)};var secret=null;
+var STEPS=['البداية','النزيف','لماذا','البدائل','Insight','الحل','الرحلة','الهدف','الأثر','البصمة','المعادلة','الـBrief'];
+function fmtD(s){if(!s)return '';var d=new Date(s);return d.toLocaleString('ar-SA',{timeZone:'Asia/Riyadh',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}
+function fmtS(n){n=+n||0;return n<60?n+' ث':Math.round(n/60)+' د'}
+function tag(c){return c?'<span class="tag '+c+'">'+(c==='in'?'داخل ✅':'وقت ثاني 🕓')+'</span>':'<span style="color:#8C8C88">—</span>'}
+function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+async function load(){
+  var r=await fetch(URL_,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({p_secret:secret})});
+  if(!r.ok){throw new Error(r.status)}
+  var d=await r.json();
+  var cds=d.by_cd.filter(function(x){return x.cd_id!=='OWNER'});
+  var opened=cds.filter(function(x){return x.cd_id.indexOf('CD-')===0}).length;
+  var inn=d.rsvp.filter(function(x){return x.choice==='in'}).length,later=d.rsvp.filter(function(x){return x.choice==='later'}).length;
+  var secs=cds.reduce(function(a,x){return a+(+x.seconds||0)},0);
+  $('#cards').innerHTML=[[opened+'/10','مدير إبداعي فتح الـBrief'],[inn,'قالوا: داخل'],[later,'قالوا: وقت ثاني'],[Math.round(secs/60),'دقيقة مشاهدة إجمالاً']].map(function(c){return '<div class="card"><div class="n">'+c[0]+'</div><p>'+c[1]+'</p></div>'}).join('');
+  $('#bycd').innerHTML=d.by_cd.map(function(x){return '<tr><td><b>'+esc(x.cd_id)+'</b></td><td class="n">'+x.visits+'</td><td class="n">'+fmtS(x.seconds)+'</td><td class="hidem">'+fmtD(x.first_seen)+'</td><td>'+fmtD(x.last_seen)+'</td><td class="hidem">'+(STEPS[x.max_step]||x.max_step)+'</td><td class="n hidem">'+x.films+'/8</td><td>'+tag(x.rsvp)+'</td></tr>'}).join('')||'<tr><td colspan="8" style="color:#8C8C88">ما فتح أحد الـBrief بعد.</td></tr>';
+  $('#rsvp').innerHTML=d.rsvp.map(function(x){return '<tr><td><b>'+esc(x.cd_id)+'</b></td><td>'+tag(x.choice)+'</td><td>'+esc(x.note||'')+'</td><td>'+fmtD(x.updated_at)+'</td></tr>'}).join('')||'<tr><td colspan="4" style="color:#8C8C88">لا أجوبة بعد.</td></tr>';
+  $('#sess').innerHTML=d.sessions.map(function(x){return '<tr><td>'+esc(x.cd_id)+'</td><td>'+fmtD(x.started_at)+'</td><td class="n">'+fmtS(x.seconds)+'</td><td class="hidem">'+(STEPS[x.max_step]||x.max_step)+'</td><td class="hidem">'+esc((x.films||[]).map(function(f){return f.slice(3)}).join('، '))+'</td><td class="hidem" style="color:#8C8C88;font-size:12px">'+esc((x.ua||'').replace(/Mozilla\/5\.0 /,'').slice(0,60))+'</td></tr>'}).join('');
+  $('#upd').textContent='آخر تحديث '+new Date().toLocaleTimeString('ar-SA',{timeZone:'Asia/Riyadh',hour:'2-digit',minute:'2-digit'});
+}
+$('#g').addEventListener('submit',async function(e){e.preventDefault();secret=$('#code').value;$('#msg').textContent='';
+  try{await load();$('#dash').hidden=false;$('#g').hidden=true;try{sessionStorage.setItem('aw_dash',secret)}catch(x){}}
+  catch(err){secret=null;$('#msg').textContent='الكود غير صحيح.'}});
+$('#refresh').addEventListener('click',function(){load().catch(function(){$('#msg').textContent='تعذّر التحديث.'})});
+try{var s=sessionStorage.getItem('aw_dash');if(s){secret=s;load().then(function(){$('#dash').hidden=false;$('#g').hidden=true}).catch(function(){})}}catch(e){}
+})();
+</script>
+</body>
+</html>
