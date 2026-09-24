@@ -12,3 +12,6 @@
 !assets/films/
 !assets/films/*.mp4
 !dash.html
+!brief.html
+!gallery.html
+!terms.html
