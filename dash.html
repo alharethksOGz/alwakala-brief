@@ -32,13 +32,14 @@ td.n{font-family:Archivo,sans-serif;font-weight:700;direction:ltr;text-align:rig
 .hint{color:var(--g3);font-size:13px;margin-top:12px}
 .tools{display:flex;gap:10px;align-items:center;margin-top:8px}
 .tb.ghost{background:transparent;color:var(--paper);border:1.5px solid var(--line);min-height:40px}
+select.rk{border:1.5px solid var(--line);background:var(--ink);color:var(--paper);border-radius:999px;padding:4px 10px;font:700 13px inherit;font-family:inherit;margin-top:6px}
 [hidden]{display:none!important}
 @media (max-width:700px){table{font-size:13px}th,td{padding:8px 6px}.hidem{display:none}}
 </style>
 </head>
 <body><div class="wrap">
 <h1>لوحة الـ<b>Brief</b></h1>
-<p class="sub">التحدي: من سجّل، من أرسل ريلز، اعتمد أو أخفِ. والـBrief: من فتح، متى، كم جلس. تتحدّث كل ما تفتحها.</p>
+<p class="sub">التحدي: من سجّل، من أرسل مشاركة، اعتمد أو أخفِ، ورتّب الفائزين التسعة (العاشر بالتصويت). والـBrief: من فتح، متى، كم جلس. تتحدّث كل ما تفتحها.</p>
 <form class="gate" id="g"><input id="code" placeholder="كود المالك" autocomplete="off"><button type="submit">ادخل</button></form>
 <p class="msg" id="msg"></p>
 <div id="dash" hidden>
@@ -77,9 +78,10 @@ async function loadChal(){
   $('#chent').innerHTML=(d.entries||[]).map(function(x){return '<tr><td>'+ST[x.status]+'</td><td><b>'+esc(x.name)+'</b><div style="color:#8C8C88;font-size:12px">'+esc(x.handle||'')+(x.city?' · '+esc(x.city):'')+'</div></td><td class="hidem" style="direction:ltr">'+esc(x.phone)+'</td><td>'+esc(x.title_line||'')+'</td><td class="hidem">'+(x.reel_url?'<a href="'+esc(x.reel_url)+'" target="_blank" rel="noopener" style="color:#FF0A8C">↗</a>':'')+'</td>'
     +'<td>'+(x.video_path?'<a href="https://xpjxnksnqmynqueddinf.supabase.co/storage/v1/object/public/challenge-video/'+esc(x.video_path)+'" target="_blank" rel="noopener" style="color:#FF0A8C">▶ '+(x.video_size?Math.round(x.video_size/1048576)+' MB':'')+'</a>':'—')+'</td>'
     +'<td class="hidem">'+(x.proposal_path?'<a href="#" class="dl" data-b="challenge-private" data-p="'+esc(x.proposal_path)+'" style="color:#FF0A8C">تنزيل</a>':'—')+'</td><td class="n">'+x.votes+'</td><td>'+fmtD(x.updated_at)+'</td>'
-    +'<td>'+(x.status!=='approved'?'<button class="tb mod" data-id="'+x.id+'" data-s="approved" style="min-height:30px;font-size:13px">اعتمد</button> ':'')+(x.status!=='hidden'?'<button class="tb ghost mod" data-id="'+x.id+'" data-s="hidden" style="min-height:30px;font-size:13px">أخفِ</button>':'')+'</td></tr>'}).join('')||'<tr><td colspan="10" style="color:#8C8C88">لا مشاركات بعد.</td></tr>';
+    +'<td>'+(x.status!=='approved'?'<button class="tb mod" data-id="'+x.id+'" data-s="approved" style="min-height:30px;font-size:13px">اعتمد</button> ':'')+(x.status!=='hidden'?'<button class="tb ghost mod" data-id="'+x.id+'" data-s="hidden" style="min-height:30px;font-size:13px">أخفِ</button>':'')+(x.status==='approved'?' <select class="rk" data-id="'+x.id+'" title="الترتيب"><option value="">بدون ترتيب</option>'+[1,2,3,4,5,6,7,8,9].map(function(r){return '<option value="'+r+'"'+(x.rank===r?' selected':'')+'>المركز '+r+'</option>'}).join('')+'</select>':(x.rank?' <span class="tag in">المركز '+x.rank+'</span>':''))+'</td></tr>'}).join('')||'<tr><td colspan="10" style="color:#8C8C88">لا مشاركات بعد.</td></tr>';
   $('#chreg').innerHTML=(d.entrants||[]).map(function(e){var lnk='https://alharethksogz.github.io/alwakala-brief/brief.html?e='+e.token+'#c4';return '<tr><td><b>'+esc(e.name)+'</b>'+(e.team?'<div style="color:#8C8C88;font-size:12px">'+esc(e.team)+'</div>':'')+'</td><td style="direction:ltr"><a href="https://wa.me/'+esc(e.phone)+'" target="_blank" rel="noopener" style="color:#EDEDEA">'+esc(e.phone)+'</a></td><td class="hidem">'+esc(e.city||'')+'</td><td class="hidem">'+esc(e.role||'')+'</td><td class="hidem" style="direction:ltr">'+esc(e.handle||'')+'</td><td>'+(e.status?ST[e.status]:'<span style="color:#8C8C88">لا</span>')+'</td><td class="hidem">'+(STEPS[e.max_step]||e.max_step)+' · '+fmtS(e.seconds)+'</td><td class="hidem">'+(e.consent?'نعم':'لا')+'</td><td>'+fmtD(e.created_at)+'</td><td class="hidem"><a href="'+lnk+'" style="color:#8C8C88;font-size:12px">رابط</a></td></tr>'}).join('')||'<tr><td colspan="10" style="color:#8C8C88">ما سجّل أحد بعد.</td></tr>';
 }
+document.addEventListener('change',async function(e){var r=e.target.closest('select.rk');if(!r)return;r.disabled=true;await fetch('https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/chal_moderate',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({p_secret:secret,p_entry:r.dataset.id,p_set_rank:true,p_rank:r.value?+r.value:null})});loadChal()});
 document.addEventListener('click',async function(e){var m=e.target.closest('.mod');if(m){m.disabled=true;await fetch('https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/chal_moderate',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({p_secret:secret,p_entry:m.dataset.id,p_status:m.dataset.s})});loadChal();return}
   var dl=e.target.closest('.dl');if(dl){e.preventDefault();var r=await fetch('https://xpjxnksnqmynqueddinf.supabase.co/functions/v1/chal-file',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({secret:secret,bucket:dl.dataset.b,path:dl.dataset.p})});var j=await r.json();if(j.url)window.open(j.url,'_blank');else alert('تعذّر التنزيل')}});
 async function load(){
