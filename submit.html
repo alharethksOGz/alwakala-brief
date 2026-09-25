@@ -77,7 +77,7 @@
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn m" id="shwa" target="_blank" rel="noopener">شارك التحدي على واتساب</a><a class="btn" href="gallery.html">شارع الأفكار</a><button type="button" class="btn" id="again">عدّل المشروع</button></div>
   </div>
 
-  <div class="acct"><span id="acc"></span><button type="button" id="chpin">تغيير الرمز</button><button type="button" id="out">خروج</button></div>
+  <div class="acct"><span id="acc"></span><button type="button" id="chpin">تغيير كلمة المرور</button><button type="button" id="out">خروج</button></div>
 </div>
 <div class="toast" id="toast"></div>
 <script src="assets/chal.js"></script>
@@ -154,17 +154,17 @@ $('#again').addEventListener('click',function(){$('#done').hidden=true;$('#pf').
 $('#shwa').addEventListener('click',function(){CH.event('share_click',{where:'submit'})});
 /* account */
 $('#out').addEventListener('click',function(){CH.logout();location.href='index.html'});
-$('#chpin').addEventListener('click',function(){var p=prompt('الرمز الجديد (6 أرقام):');if(p==null)return;if(!/^[0-9]{6}$/.test(p)){toast('الرمز لازم يكون 6 أرقام');return}CH.rpc('chal_set_pin',{p_token:TOKEN,p_pin:p}).then(function(){toast('تم تغيير الرمز')}).catch(function(){toast('تعذّر التغيير')})});
+$('#chpin').addEventListener('click',function(){var p=prompt('كلمة المرور الجديدة (6 أحرف على الأقل):');if(p==null)return;if(p.length<6){toast('كلمة المرور 6 أحرف على الأقل');return}CH.rpc('chal_set_password',{p_token:TOKEN,p_password:p}).then(function(){toast('تم تغيير كلمة المرور')}).catch(function(){toast('تعذّر التغيير')})});
 function status(en){var ST={pending:'<span class="tag y">بانتظار الاعتماد</span>',approved:'<span class="tag g">في الشارع</span>',hidden:'<span class="tag">غير معروض</span>'};
   $('#st').innerHTML=en?ST[en.status]+(en.status==='approved'?' <span class="num">'+(en.votes||0)+'</span> صوت · <span class="num">'+(en.views||0)+'</span> قراءة · <a href="project.html?p='+en.slug+'">افتح الصفحة</a>':''):'<span class="tag">ما أرسلت مشروعك بعد</span>'}
 /* load */
 CH.rpc('chal_me',{p_token:TOKEN}).then(function(m){if(!m||!m.name){CH.logout();location.replace('join.html');return}
-  ID=m.id;NAME=m.name;CH.setMe({token:TOKEN,id:m.id,name:m.name});$('#who').textContent=m.name;$('#acc').textContent='مسجّل برقم '+m.phone;
+  ID=m.id;NAME=m.name;CH.setMe({token:TOKEN,id:m.id,name:m.name});$('#who').textContent=m.name;$('#acc').textContent='مسجّل بـ '+(m.email||m.phone);
   var d=null;try{d=JSON.parse(localStorage.getItem(dkey())||'null')}catch(e){}
   if(m.entry){ENTRY=m.entry;SLUG=m.entry.slug;load({title:m.entry.title,summary:m.entry.summary,reel:m.entry.reel_url,body:m.entry.body,media:m.entry.media});status(m.entry);
     if(d&&d.title&&ENTRY.updated_at&&new Date(d.t||0)>new Date(ENTRY.updated_at)){load(d)}}
   else{status(null);if(d)load(d)}
-  if(!m.has_pin||q.get('setpin')){var p=prompt('اختر رمز دخول من 6 أرقام لصفحتك:');if(p&&/^[0-9]{6}$/.test(p))CH.rpc('chal_set_pin',{p_token:TOKEN,p_pin:p}).then(function(){toast('تم حفظ الرمز')})}
+  if(!m.has_pin||q.get('setpw')){var p=prompt('اختر كلمة مرور لصفحتك (6 أحرف على الأقل):');if(p&&p.length>=6)CH.rpc('chal_set_password',{p_token:TOKEN,p_password:p}).then(function(){toast('تم حفظ كلمة المرور')})}
   if(q.get('new'))toast('أهلاً! اكتب فكرتك وارفع ملفاتك.');
 }).catch(function(){CH.logout();location.replace('join.html')});
 })();

@@ -103,13 +103,13 @@ window.CH = (function () {
     if (dlgBuilt) return dlgBuilt;
     if (!document.getElementById('chcss')) { var st2 = document.createElement('style'); st2.id = 'chcss'; st2.textContent = CSS; document.head.appendChild(st2); }
     var dlg = document.createElement('div'); dlg.className = 'chdlg'; dlg.hidden = true; dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-modal', 'true');
-    dlg.innerHTML = '<div class="cd"><h3>دخول</h3><p>رقم الواتساب اللي سجّلت به، ورمزك المكوّن من 6 أرقام.</p><form id="chlf" novalidate>'
-      + '<label><span>رقم الواتساب</span><input name="phone" inputmode="tel" dir="ltr" autocomplete="tel" placeholder="05xxxxxxxx" maxlength="20"></label>'
-      + '<label><span>الرمز (6 أرقام)</span><input name="pin" inputmode="numeric" dir="ltr" autocomplete="current-password" type="password" maxlength="6" pattern="[0-9]{6}"></label>'
+    dlg.innerHTML = '<div class="cd"><h3>دخول</h3><p>بريدك وكلمة المرور اللي سجّلت بها.</p><form id="chlf" novalidate>'
+      + '<label><span>البريد الإلكتروني</span><input name="email" type="email" inputmode="email" dir="ltr" autocomplete="email" placeholder="name@example.com" maxlength="120"></label>'
+      + '<label><span>كلمة المرور</span><input name="pw" dir="ltr" autocomplete="current-password" type="password" maxlength="72"></label>'
       + '<div class="row"><button type="submit" class="go">ادخل</button><button type="button" class="x" id="chlx">إغلاق</button></div><div class="err" id="chle"></div>'
-      + '<div class="hint">ما سجّلت بعد؟ <a href="join.html">سجّل من هنا</a>. نسيت الرمز؟ راسل <a href="mailto:win@alwakala.ai">win@alwakala.ai</a> من نفس رقمك.</div></form></div>';
+      + '<div class="hint">ما سجّلت بعد؟ <a href="join.html">سجّل من هنا</a>. نسيت كلمة المرور؟ راسل <a href="mailto:win@alwakala.ai">win@alwakala.ai</a> من نفس بريدك.</div></form></div>';
     document.body.appendChild(dlg);
-    var open = function () { dlg.hidden = false; event('login_open'); setTimeout(function () { dlg.querySelector('input[name=phone]').focus(); }, 50); };
+    var open = function () { dlg.hidden = false; event('login_open'); setTimeout(function () { dlg.querySelector('input[name=email]').focus(); }, 50); };
     var close = function () { dlg.hidden = true; };
     var b = document.getElementById('chlogin'); if (b) b.addEventListener('click', open);
     document.getElementById('chlx').addEventListener('click', close);
@@ -117,9 +117,9 @@ window.CH = (function () {
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dlg.hidden) close(); });
     document.getElementById('chlf').addEventListener('submit', function (e) {
       e.preventDefault(); var f = e.target, err = document.getElementById('chle'); err.textContent = '';
-      if (!/^[0-9]{6}$/.test(f.pin.value)) { err.textContent = 'الرمز 6 أرقام.'; return; }
+      if (f.pw.value.length < 6) { err.textContent = 'كلمة المرور 6 أحرف على الأقل.'; return; }
       f.querySelector('.go').disabled = true;
-      rpc('chal_login', { p_phone: f.phone.value, p_pin: f.pin.value }).then(function (j) { if (!j || j.ok === false) { var k = (j && j.error) || ''; err.textContent = k === 'locked' ? 'محاولات كثيرة. جرّب بعد 15 دقيقة.' : k === 'bad_pin' ? 'الرقم أو الرمز غير صحيح.' + (j.left === 0 ? ' آخر محاولة قبل الإيقاف 15 دقيقة.' : '') : 'صار خطأ. جرّب مرة ثانية.'; event('login_fail', { e: k }); return; } setMe(j); event('login_ok'); location.href = 'submit.html'; })
+      rpc('chal_login', { p_email: f.email.value.trim(), p_password: f.pw.value }).then(function (j) { if (!j || j.ok === false) { var k = (j && j.error) || ''; err.textContent = k === 'locked' ? 'محاولات كثيرة. جرّب بعد 15 دقيقة.' : k === 'bad' ? 'البريد أو كلمة المرور غير صحيحة.' : 'صار خطأ. جرّب مرة ثانية.'; event('login_fail', { e: k }); return; } setMe(j); event('login_ok'); location.href = 'submit.html'; })
         .catch(function (x) { err.textContent = 'صار خطأ. جرّب مرة ثانية.'; event('login_fail'); })
         .then(function () { f.querySelector('.go').disabled = false; });
     });
