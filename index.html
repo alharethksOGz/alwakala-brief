@@ -100,6 +100,15 @@ label{display:block;margin-bottom:10px;font-size:17px;font-weight:600;color:var(
 .cue i{display:block;width:2px;height:30px;background:linear-gradient(var(--g1),transparent);animation:cue 1.6s ease-in-out infinite}
 @keyframes cue{50%{transform:translateY(6px);opacity:.5}}
 .gate{position:sticky;top:0}
+/* ---------- mobile note ---------- */
+.mnote{position:fixed;inset:0;z-index:25;display:grid;place-items:end center;padding:16px;background:rgba(10,10,9,.55);opacity:0;transition:opacity .4s}
+.mnote[hidden]{display:none}.mnote.on{opacity:1}
+.mnote .c{width:100%;max-width:480px;background:rgba(28,28,27,.97);border:1px solid rgba(247,247,245,.16);border-radius:24px;padding:22px 20px calc(18px + env(safe-area-inset-bottom,0px));text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mnote .ic{font-size:34px;line-height:1;margin-bottom:8px}
+.mnote h2{font-size:22px;line-height:1.35;margin-bottom:8px}
+.mnote p{font-size:16px;color:var(--g1);line-height:1.7;margin-bottom:16px}
+.mnote button{width:100%;min-height:52px;border:0;border-radius:999px;background:var(--m);color:var(--ink);font-weight:800;font-size:17px;cursor:pointer;font-family:inherit}
+.mnote button b{font-family:var(--num);margin-inline-start:6px;color:rgba(28,28,27,.65)}
 .fade{position:fixed;inset:0;z-index:20;background:var(--ink0);opacity:0;pointer-events:none;transition:opacity .45s ease}
 .fade.on{opacity:1}
 
@@ -155,6 +164,9 @@ bdi{unicode-bidi:isolate}
 
 <div class="track" aria-hidden="true"></div>
 
+<div class="mnote" id="mnote" hidden role="dialog" aria-live="polite">
+  <div class="c"><div class="ic">💻</div><h2>لتجربة أكمل، افتحه من اللابتوب.</h2><p>الـBrief رحلة مشاهد ومقاطع، وعلى الشاشة الكبيرة تاخذ حقها. تقدر تكمّل من الجوال طبعاً.</p><button type="button" id="mgo">كمّل من الجوال <b id="mcnt">10</b></button></div>
+</div>
 <div class="fade" id="fade"></div>
 <div class="bootmark" aria-hidden="true"><svg viewBox="0 0 500 144"><use href="#wm"/></svg></div>
 
@@ -185,6 +197,13 @@ $('go').addEventListener('click',function(){if(window.CH)CH.event('landing_go');
 document.addEventListener('visibilitychange',function(){if(document.hidden||!idle.src||!idle.paused)return;var p=idle.play();if(p&&p.catch)p.catch(function(){})});
 if(!RM){idle.src=A+'street-idle-'+O+'.mp4';idle.addEventListener('playing',function(){idle.classList.add('on')},{once:true});var p=idle.play();if(p&&p.catch)p.catch(function(){})}
 if(window.scrollY>0)window.scrollTo(0,0);frame();
+/* mobile: suggest the laptop once, 10 s, then continue */
+(function(){var isMob=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)||window.innerWidth<700;var seen=false;try{seen=!!localStorage.getItem('aw_mnote')}catch(e){}
+  if(!isMob||seen)return;var mn=$('mnote'),cnt=$('mcnt'),n=10,t=null;mn.hidden=false;requestAnimationFrame(function(){mn.classList.add('on')});
+  if(window.CH)CH.event('mobile_note');
+  function close(how){if(t){clearInterval(t);t=null}mn.classList.remove('on');setTimeout(function(){mn.hidden=true},400);try{localStorage.setItem('aw_mnote','1')}catch(e){}if(window.CH)CH.event('mobile_note_close',{how:how})}
+  t=setInterval(function(){n--;cnt.textContent=n;if(n<=0)close('auto')},1000);
+  $('mgo').addEventListener('click',function(){close('tap')});})();
 /* live counter */
 fetch('https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/chal_stats',{method:'POST',headers:{apikey:'sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo',Authorization:'Bearer sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo','Content-Type':'application/json'},body:'{}'})
   .then(function(r){return r.json()}).then(function(s){var n=+s.registered||0,m=+s.approved||0;var d=Math.max(0,Math.ceil((new Date(s.deadline)-Date.now())/864e5));
