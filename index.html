@@ -84,6 +84,9 @@ label{display:block;margin-bottom:10px;font-size:17px;font-weight:600;color:var(
 .field button:hover{background:var(--m2)}
 .field button[disabled]{cursor:progress;opacity:.8}
 .cta{width:min(520px,100%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.lg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);left:16px;z-index:8;min-height:42px;padding:0 20px;border-radius:999px;border:1.5px solid rgba(247,247,245,.35);background:rgba(20,19,18,.55);color:var(--paper);font-weight:800;font-size:15px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:inherit}
+.lg:hover{background:var(--m);color:var(--ink);border-color:var(--m)}
+.cue{cursor:pointer;margin-top:14px}
 .go{display:block;width:100%;min-height:56px;border:0;border-radius:999px;background:var(--m);color:var(--ink);font-weight:800;font-size:19px;cursor:pointer;text-decoration:none;line-height:56px;text-align:center;font-family:inherit;transition:background .2s}
 .go:hover{background:var(--m2)}
 .go.ghost{background:rgba(20,19,18,.55);color:var(--paper);border:1.5px solid rgba(247,247,245,.3);backdrop-filter:blur(8px)}
@@ -144,19 +147,17 @@ bdi{unicode-bidi:isolate}
   <div class="veil"></div>
 </div>
 
+<button type="button" class="lg" id="login">دخول</button>
 <main class="gate">
   <div class="panel" id="panel">
     <p class="kick"><b>مسابقة</b><span>أفضل فكرة لإطلاق <bdi>الوكالة.ai</bdi></span></p>
     <h1 class="logo"><svg viewBox="0 0 500 144" role="img" aria-label="الوكالة"><use href="#wm"/></svg><span class="sr">الوكالة.ai</span></h1>
     <p class="prize"><span class="pv">130,000</span><span class="pl">ريال جوائز</span></p>
-    <p class="line"><b>شارك واربح الآن.</b></p>
+    <p class="line"><b>شارك واربح.</b></p>
     <div class="cta">
-      <a class="go" href="join.html" id="joinlink">شارك الآن</a>
-      <button type="button" class="go ghost" id="go">اقرأ الـBrief</button>
-      <a class="go ghost" href="gallery.html">شارع الأفكار</a>
       <p class="hint" id="cnt">&nbsp;</p>
       <p class="hint">عشرة فائزين · التقديم حتى 26 أكتوبر · <a href="terms.html" style="color:var(--g1)">الشروط</a></p>
-      <p class="cue" aria-hidden="true">انزل وابدأ<i></i></p>
+      <p class="cue" id="cue">انزل للـBrief<i></i></p>
     </div>
   </div>
   <noscript><p class="nos">هذي الصفحة تحتاج JavaScript. <a href="brief.html" style="color:var(--m)">افتح الـBrief مباشرة</a>.</p></noscript>
@@ -174,7 +175,7 @@ bdi{unicode-bidi:isolate}
 <script>
 (function(){
 'use strict';
-if(window.CH){CH.track();var _m=CH.me();if(_m){var jl=document.getElementById('joinlink');if(jl){jl.textContent='مشروعي · '+(_m.name||'').split(' ')[0];jl.href='submit.html'}}document.getElementById('joinlink').addEventListener('click',function(){CH.event('landing_join')})}
+if(window.CH){CH.track();var _lg=document.getElementById('login'),_m=CH.me();if(_m){_lg.textContent='مشروعي · '+(_m.name||'').split(' ')[0];_lg.addEventListener('click',function(){location.href='submit.html'})}else{var _d=null;_lg.addEventListener('click',function(){_d=_d||CH.loginDialog();_d.open()})}}else{document.getElementById('login').addEventListener('click',function(){location.href='join.html'})}
 var A='assets/';var $=function(s){return document.getElementById(s)};var doc=document.documentElement;
 var RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 var O=(window.matchMedia&&matchMedia('(max-aspect-ratio: 17/20)').matches)?'9x16':'16x9';
@@ -193,7 +194,7 @@ function autoScroll(){if(auto||gone)return;var y0=window.scrollY,y1=maxY(),t0=nu
   function step(ts){if(!t0)t0=ts;var k=D?clamp((ts-t0)/D):1,e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;window.scrollTo(0,y0+(y1-y0)*e);frame();if(k<1&&auto)auto=requestAnimationFrame(step);else{auto=null;go()}}
   auto=requestAnimationFrame(step)}
 ['wheel','touchstart','keydown'].forEach(function(ev){window.addEventListener(ev,function(){if(auto){cancelAnimationFrame(auto);auto=null}},{passive:true})});
-$('go').addEventListener('click',function(){if(window.CH)CH.event('landing_go');autoScroll()});
+$('cue').addEventListener('click',function(){if(window.CH)CH.event('landing_go');autoScroll()});
 document.addEventListener('visibilitychange',function(){if(document.hidden||!idle.src||!idle.paused)return;var p=idle.play();if(p&&p.catch)p.catch(function(){})});
 if(!RM){idle.src=A+'street-idle-'+O+'.mp4';idle.addEventListener('playing',function(){idle.classList.add('on')},{once:true});var p=idle.play();if(p&&p.catch)p.catch(function(){})}
 if(window.scrollY>0)window.scrollTo(0,0);frame();
