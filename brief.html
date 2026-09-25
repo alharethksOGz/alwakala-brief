@@ -687,10 +687,10 @@ html[dir="ltr"] .loop span{transform-origin:left}
 .rmk{position:absolute;top:50%;width:10px;height:10px;margin-top:-5px;padding:0;border-radius:50%;background:var(--bg);border:2px solid var(--g3);transform:translateX(50%);cursor:pointer;z-index:2}
 .rmk.past{border-color:var(--m)}.rmk.on{background:var(--m);border-color:var(--m);width:14px;height:14px;margin-top:-7px}
 .rmk:hover{border-color:var(--m);background:var(--m)}
-.rthumb{position:absolute;top:50%;width:6px;height:16px;margin-top:-8px;border-radius:3px;background:var(--m);transform:translateX(50%);pointer-events:none;z-index:1;box-shadow:0 0 0 2px var(--bar)}
+.rlthumb{position:absolute;top:50%;width:6px;height:16px;margin-top:-8px;border-radius:3px;background:var(--m);transform:translateX(50%);pointer-events:none;z-index:1;box-shadow:0 0 0 2px var(--bar)}
 .rtip{position:absolute;top:calc(100% - 2px);transform:translateX(50%);background:var(--ink);color:#EDEDEA;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s;z-index:3}
 .rtip.on{opacity:1}
-html[dir="ltr"] .rmk,html[dir="ltr"] .rthumb,html[dir="ltr"] .rtip{transform:translateX(-50%)}
+html[dir="ltr"] .rmk,html[dir="ltr"] .rlthumb,html[dir="ltr"] .rtip{transform:translateX(-50%)}
 .rcur{flex:none;font-size:13px;font-weight:700;color:var(--fg);min-width:5.5em;text-align:start;white-space:nowrap}
 :root[data-theme="dark"] .rmk,.night .rmk{background:var(--bg)}
 @media (max-width:520px){.rail{padding:0 12px;gap:10px}.rcur{font-size:12px;min-width:4.5em}
@@ -762,7 +762,7 @@ body{overscroll-behavior-x:none}
   <button data-i="9" class="play" id="play" type="button">شغّل الرحلة</button>
   <button class="play ghost" id="loginBtn" type="button" data-i="361">دخول</button>
 </header>
-<div class="rail" id="rail"><div class="rtrack" id="rtrack" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="فصول الرحلة"><i class="rfill" id="rfill"></i><i class="rthumb" id="rthumb"></i><span class="rtip" id="rtip"></span></div><span class="rcur" id="rcur"></span></div>
+<div class="rail" id="rail"><div class="rtrack" id="rtrack" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="فصول الرحلة"><i class="rfill" id="rfill"></i><i class="rlthumb" id="rthumb"></i><span class="rtip" id="rtip"></span></div><span class="rcur" id="rcur"></span></div>
 
 <!-- 0 · الافتتاح -->
 <section class="scene hero" id="s0" style="--len:170vh">
