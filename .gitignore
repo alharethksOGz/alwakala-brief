@@ -12,6 +12,11 @@
 !assets/films/
 !assets/films/*.mp4
 !dash.html
+!join.html
+!submit.html
+!project.html
+!assets/*.js
+!assets/*.css
 !brief.html
 !gallery.html
 !terms.html

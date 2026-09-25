@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مشروعي · تحدي أشعلوا الشارع</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/chal.css">
+<style>
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.top .st{margin-inline-start:auto;display:flex;gap:8px;align-items:center;font-size:14px;color:var(--g2)}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{border:1.5px solid var(--line);background:transparent;color:var(--paper);border-radius:999px;padding:8px 18px;font:700 15px inherit;font-family:inherit;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.sec{margin-bottom:6px}
+.sec .help{font-size:13px;color:var(--g3);margin:-6px 0 8px}
+.drop{border:2px dashed rgba(247,247,245,.3);border-radius:18px;padding:22px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative}
+.drop.over,.drop:hover{border-color:var(--m)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop b{display:block;font-size:17px}.drop span{display:block;font-size:13px;color:var(--g3);margin-top:4px}
+.files{display:grid;gap:10px;margin-top:12px}
+.fi{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.fi .th{width:64px;height:64px;border-radius:10px;background:#0c0c0b;display:grid;place-items:center;overflow:hidden;font-size:22px}
+.fi .th img{width:100%;height:100%;object-fit:cover}
+.fi b{display:block;font-size:15px;word-break:break-all}
+.fi .meta{font-size:12px;color:var(--g3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fi .bar{height:5px;border-radius:3px;background:#3C3C39;overflow:hidden;margin-top:6px}
+.fi .bar i{display:block;height:100%;width:0;background:var(--m);transition:width .2s}
+.fi .act{display:flex;flex-direction:column;gap:6px}
+.fi .act button{border:1px solid var(--line);background:transparent;color:var(--paper);border-radius:999px;width:34px;height:30px;cursor:pointer;font-size:14px}
+.fi .act button.cov[aria-pressed="true"]{background:var(--m);color:var(--ink);border-color:var(--m)}
+.fi.err{border-color:#FF6B9F}
+.total{font-size:13px;color:var(--g3);margin-top:8px;text-align:start}
+.pv h1{font-size:34px}.pv .who{color:var(--g2);margin-bottom:18px}
+.pv h3{font-size:15px;color:var(--m);margin:22px 0 6px}
+.pv p{font-size:18px;white-space:pre-wrap;margin:0}
+.pv .pmedia{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:18px}
+.pv .pmedia div{aspect-ratio:9/12;border-radius:14px;overflow:hidden;background:#0c0c0b;display:grid;place-items:center;color:var(--g2)}
+.pv .pmedia img{width:100%;height:100%;object-fit:cover}
+.done{ text-align:center}
+.done .ref{font-family:Archivo,sans-serif;font-weight:800;font-size:44px;color:var(--m);letter-spacing:.06em}
+.acct{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--g3);align-items:center}
+.acct button{border:0;background:transparent;color:var(--g2);text-decoration:underline;cursor:pointer;font:inherit;font-size:13px;font-family:inherit}
+</style>
+</head>
+<body>
+<div id="chbar"></div>
+<div class="wrap narrow">
+  <div class="top"><div><div class="kick">صفحة مشروعك</div><h1 style="margin:0">أهلاً <b id="who">…</b></h1></div><div class="st" id="st"></div></div>
+  <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-t="edit">التحرير</button><button role="tab" aria-selected="false" data-t="pv">معاينة الصفحة</button></div>
+
+  <form class="card" id="pf" novalidate>
+    <label class="f"><span>اسم الحملة <i id="c_title">0/60</i></span><input name="title" maxlength="60" placeholder="عنوان يوقّف الناس" required></label>
+    <label class="f"><span>الفكرة في سطر <i id="c_summary">0/140</i></span><input name="summary" maxlength="140" placeholder="سطر واحد يشرح الحملة لصاحب المحل"></label>
+    <div id="secs"></div>
+    <label class="f"><span>رابط الفيديو على حسابك (إن نشرته)</span><input name="reel" dir="ltr" inputmode="url" placeholder="https://" maxlength="300"></label>
+
+    <h2 style="margin-top:10px">الملفات</h2>
+    <p class="hint" style="margin:-4px 0 12px">حتى 6 ملفات: فيديو MP4/MOV (حتى 100 ميقا)، PDF (حتى 20 ميقا)، صور JPG/PNG (حتى 10 ميقا). الملفات تنرفع مباشرة. اختر «غلاف» لواحد منها.</p>
+    <div class="drop" id="drop"><input type="file" id="fin" multiple accept="video/mp4,video/quicktime,application/pdf,image/jpeg,image/png,image/webp"><b>اسحب الملفات هنا، أو اضغط لاختيارها</b><span>فيديو · PDF · صور</span></div>
+    <div class="files" id="files"></div>
+    <p class="total" id="total"></p>
+    <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button type="submit" class="btn m" id="send">أرسل مشروعي</button>
+      <span class="hint" id="autos"></span>
+    </div>
+    <p class="err" id="err" role="alert"></p>
+  </form>
+
+  <div class="card pv" id="pv" hidden></div>
+
+  <div class="card done" id="done" hidden>
+    <div class="kick" style="justify-content:center">وصل مشروعك</div>
+    <div class="ref" id="ref"></div>
+    <p class="sub" style="margin:8px auto 18px;text-align:center">بانتظار اعتماد فريق الوكالة.ai، وبعدها يظهر في «شارع الأفكار» على هذا الرابط:<br><a id="plink" href="#" dir="ltr"></a></p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn m" id="shwa" target="_blank" rel="noopener">شارك التحدي على واتساب</a><a class="btn" href="gallery.html">شارع الأفكار</a><button type="button" class="btn" id="again">عدّل المشروع</button></div>
+  </div>
+
+  <div class="acct"><span id="acc"></span><button type="button" id="chpin">تغيير الرمز</button><button type="button" id="out">خروج</button></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="assets/chal.js"></script>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+CH.header('submit');CH.track();
+var q=new URLSearchParams(location.search),tok=q.get('e'),me=CH.me();
+if(tok&&/^[0-9a-f-]{36}$/i.test(tok)){me={token:tok}}
+if(!me){location.replace('join.html');return}
+var TOKEN=me.token,ID=null,NAME='',ENTRY=null,SLUG=null,media=[],busy=0;
+function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2200)}
+function mb(n){return (n/1048576).toFixed(n<10485760?1:0)+' MB'}
+function ext(f){var m=(f.name||'').match(/\.([a-z0-9]+)$/i);return m?m[1].toLowerCase():''}
+function kindOf(f){if(/^video\//.test(f.type))return 'video';if(f.type==='application/pdf')return 'pdf';if(/^image\//.test(f.type))return 'image';var e=ext(f);return e==='mp4'||e==='mov'?'video':e==='pdf'?'pdf':/^(jpe?g|png|webp)$/.test(e)?'image':null}
+var ICON={video:'▶',pdf:'📄',image:'🖼'};
+/* sections */
+$('#secs').innerHTML=CH.SEC.map(function(s){return '<div class="sec"><label class="f"><span>'+s[1]+(s[0]==='hook'?' <i>اختياري</i>':'')+' <i id="c_'+s[0]+'">0/400</i></span><textarea name="'+s[0]+'" maxlength="400" rows="'+(s[0]==='hook'?2:4)+'"></textarea></label><p class="help">'+s[2]+'</p></div>'}).join('');
+var pf=$('#pf');
+function counters(){['title','summary'].forEach(function(k){$('#c_'+k).textContent=pf[k].value.length+'/'+pf[k].maxLength});CH.SEC.forEach(function(s){$('#c_'+s[0]).textContent=pf[s[0]].value.length+'/400'})}
+pf.addEventListener('input',function(){counters();draft()});
+/* draft */
+function dkey(){return 'aw_draft_'+(ID||'x')}
+function draft(){try{var o={t:Date.now(),title:pf.title.value,summary:pf.summary.value,reel:pf.reel.value,body:{},media:media.filter(function(m){return m.path})};CH.SEC.forEach(function(s){o.body[s[0]]=pf[s[0]].value});localStorage.setItem(dkey(),JSON.stringify(o));$('#autos').textContent='محفوظ تلقائياً على هذا الجهاز'}catch(e){}}
+function load(o){if(!o)return;pf.title.value=o.title||'';pf.summary.value=o.summary||'';pf.reel.value=o.reel||o.reel_url||'';var b=o.body||{};CH.SEC.forEach(function(s){pf[s[0]].value=b[s[0]]||''});media=(o.media||[]).map(function(m){return {path:m.path,kind:m.kind,size:m.size,poster:m.poster,name:m.name,w:m.w,h:m.h,done:1}});counters();renderFiles()}
+/* files */
+function renderFiles(){$('#files').innerHTML=media.map(function(m,i){var th=m.kind==='image'&&m.path?'<img src="'+CH.pub(m.path)+'" alt="">':m.kind==='video'&&m.poster?'<img src="'+CH.pub(m.poster)+'" alt="">':m.local?'<img src="'+m.local+'" alt="">':ICON[m.kind];
+  return '<div class="fi'+(m.error?' err':'')+'" data-i="'+i+'"><div class="th">'+th+'</div><div><b>'+CH.esc(m.name||'')+'</b><div class="meta"><span>'+(m.kind==='video'?'فيديو':m.kind==='pdf'?'PDF':'صورة')+'</span><span class="num">'+mb(m.size||0)+'</span>'+(m.error?'<span style="color:#FFB8D9">'+CH.esc(m.error)+'</span>':m.done?'<span class="ok">✓ مرفوع</span>':'<span>يرفع…</span>')+(i===0&&m.kind!=='pdf'?'<span class="tag m">الغلاف</span>':'')+'</div>'+(m.done||m.error?'':'<div class="bar"><i style="width:'+Math.round((m.prog||0)*100)+'%"></i></div>')+'</div>'
+  +'<div class="act"><button type="button" class="up" title="تحريك لأعلى" '+(i===0?'disabled':'')+'>↑</button><button type="button" class="cov" title="اجعله الغلاف" aria-pressed="'+(i===0)+'" '+(m.kind==='pdf'?'disabled':'')+'>★</button><button type="button" class="rm" title="حذف">✕</button></div></div>'}).join('');
+  var tot=media.reduce(function(a,m){return a+(m.size||0)},0);$('#total').textContent=media.length?media.length+' من 6 ملفات · '+mb(tot)+' من 250 MB':'';}
+$('#files').addEventListener('click',function(e){var fi=e.target.closest('.fi');if(!fi)return;var i=+fi.dataset.i;
+  if(e.target.closest('.rm')){media.splice(i,1)}else if(e.target.closest('.up')&&i>0){var t=media[i];media[i]=media[i-1];media[i-1]=t}else if(e.target.closest('.cov')){var c=media.splice(i,1)[0];media.unshift(c)}else return;renderFiles();draft()});
+function addFiles(list){var errs=[];Array.prototype.forEach.call(list,function(f){var k=kindOf(f);
+  if(!k){errs.push(f.name+': نوع غير مدعوم');return}
+  if(media.length>=CH.LIM.n){errs.push(f.name+': الحد 6 ملفات');return}
+  if(f.size>CH.LIM[k]){errs.push(f.name+': أكبر من الحد ('+mb(CH.LIM[k])+')');return}
+  var tot=media.reduce(function(a,m){return a+(m.size||0)},0);if(tot+f.size>CH.LIM.total){errs.push(f.name+': المجموع يتجاوز 250 MB');return}
+  var m={kind:k,size:f.size,name:f.name,prog:0,local:k==='image'?URL.createObjectURL(f):null};media.push(m);renderFiles();uploadOne(m,f)});
+  $('#err').textContent=errs.join(' · ');if(errs.length)CH.event('file_rejected',{n:errs.length})}
+function uploadOne(m,f){busy++;var rnd=Math.random().toString(36).slice(2,10),e=ext(f)||(m.kind==='video'?'mp4':m.kind==='pdf'?'pdf':'jpg');if(e==='jpeg')e='jpg';if(e==='mov')e='mov';
+  var path=ID+'/'+rnd+'.'+e,pre=Promise.resolve({blob:f});
+  if(m.kind==='image')pre=CH.shrink(f,2000).then(function(r){m.w=r.w;m.h=r.h;m.size=r.blob.size;return {blob:r.blob.type?r.blob:new File([r.blob],f.name,{type:'image/jpeg'})}});
+  pre.then(function(r){var blob=r.blob;if(!blob.type){blob=new File([blob],f.name,{type:m.kind==='video'?'video/mp4':m.kind==='pdf'?'application/pdf':'image/jpeg'})}return CH.upload(path,blob,function(p){m.prog=p*.9;renderFiles()})})
+  .then(function(){m.path=path;if(m.kind==='video'){return CH.poster(f).then(function(p){if(!p||!p.blob)return;m.w=p.w;m.h=p.h;var pp=ID+'/'+rnd+'.jpg';return CH.upload(pp,new File([p.blob],'p.jpg',{type:'image/jpeg'})).then(function(){m.poster=pp}).catch(function(){})})}})
+  .then(function(){m.done=1;m.prog=1;CH.event('file_added',{kind:m.kind,size:m.size})}).catch(function(err){m.error=String(err.message||'').indexOf('mime')>=0?'نوع الملف غير مقبول':'تعذّر الرفع، احذفه وجرّب مرة ثانية';CH.event('file_failed',{kind:m.kind})})
+  .then(function(){busy--;renderFiles();draft()})}
+$('#fin').addEventListener('change',function(){addFiles(this.files);this.value=''});
+var drop=$('#drop');['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over')})});['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('over')})});
+drop.addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files)addFiles(e.dataTransfer.files)});
+/* tabs + preview */
+$$('.tabs button').forEach(function(b){b.addEventListener('click',function(){$$('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});var pv=b.dataset.t==='pv';$('#pf').hidden=pv;$('#pv').hidden=!pv;$('#done').hidden=true;if(pv){preview();CH.event('preview')}})});
+function preview(){var b={};CH.SEC.forEach(function(s){b[s[0]]=pf[s[0]].value.trim()});
+  $('#pv').innerHTML='<div class="kick">معاينة · كذا تظهر صفحتك في شارع الأفكار</div><h1>'+(CH.esc(pf.title.value)||'اسم الحملة')+'</h1><div class="who">'+CH.esc(pf.summary.value)+'<br><small>'+CH.esc(NAME)+'</small></div>'
+  +(b.hook?'<p style="font-size:24px;font-weight:700;color:var(--paper)">'+CH.esc(b.hook)+'</p>':'')
+  +CH.SEC.filter(function(s){return s[0]!=='hook'&&b[s[0]]}).map(function(s){return '<h3>'+s[1]+'</h3><p>'+CH.esc(b[s[0]])+'</p>'}).join('')
+  +(media.length?'<div class="pmedia">'+media.map(function(m){return '<div>'+(m.kind==='image'&&m.path?'<img src="'+CH.pub(m.path)+'">':m.kind==='video'&&m.poster?'<img src="'+CH.pub(m.poster)+'">':ICON[m.kind]+' '+(m.kind==='pdf'?'ملف PDF':''))+'</div>'}).join('')+'</div>':'')}
+/* submit */
+pf.addEventListener('submit',function(e){e.preventDefault();$('#err').textContent='';
+  if(pf.title.value.trim().length<3){$('#err').textContent='اكتب اسم الحملة.';return}
+  if(!pf.idea.value.trim()){$('#err').textContent='اكتب الفكرة في ثلاث جمل على الأقل.';return}
+  if(busy){$('#err').textContent='انتظر حتى تكتمل الملفات.';return}
+  var ok=media.filter(function(m){return m.done&&m.path});if(media.some(function(m){return m.error})){$('#err').textContent='احذف الملف اللي فشل رفعه أولاً.';return}
+  if(!ok.length&&!pf.reel.value.trim()){$('#err').textContent='أضف ملفاً واحداً على الأقل (فيديو أو PDF أو صورة)، أو رابط الفيديو على حسابك.';return}
+  var body={};CH.SEC.forEach(function(s){if(pf[s[0]].value.trim())body[s[0]]=pf[s[0]].value.trim()});
+  var b=$('#send');b.disabled=true;b.textContent='يرسل…';CH.event('submit_start');
+  CH.rpc('chal_submit',{p_token:TOKEN,p_title:pf.title.value.trim(),p_summary:pf.summary.value.trim()||null,p_body:body,p_reel_url:pf.reel.value.trim()||null,
+    p_media:ok.map(function(m){return {path:m.path,kind:m.kind,poster:m.poster||null,name:m.name,w:m.w||null,h:m.h||null}})})
+  .then(function(j){SLUG=j.slug;$('#ref').textContent=j.ref;var url=CH.base()+'project.html?p='+j.slug;$('#plink').textContent=url;$('#plink').href=url;
+    $('#shwa').href=CH.share('شاركت في تحدي «أشعلوا الشارع» من الوكالة.ai بمشروع «'+pf.title.value.trim()+'». 10,000 ريال نقداً وجوائز أخرى كثيرة. شارك أنت كمان قبل 26 أكتوبر:\n#الوكالة_في_جيبك',CH.base());
+    $('#pf').hidden=true;$('#pv').hidden=true;$('#done').hidden=false;CH.event('submit_done',{files:ok.length});status({status:'pending',slug:j.slug});window.scrollTo(0,0)})
+  .catch(function(err){var k=String(err.message||'');$('#err').textContent=k.indexOf('closed')>=0?'قفل التسجيل يوم 26 أكتوبر.':k.indexOf('missing')>=0?'ملف لم يكتمل رفعه. احذفه وأعد رفعه.':k.indexOf('total')>=0?'مجموع الملفات يتجاوز 250 MB.':'صار خطأ. جرّب مرة ثانية.'})
+  .then(function(){b.disabled=false;b.textContent='أرسل مشروعي'})});
+$('#again').addEventListener('click',function(){$('#done').hidden=true;$('#pf').hidden=false;$$('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x.dataset.t==='edit')})});
+$('#shwa').addEventListener('click',function(){CH.event('share_click',{where:'submit'})});
+/* account */
+$('#out').addEventListener('click',function(){CH.logout();location.href='index.html'});
+$('#chpin').addEventListener('click',function(){var p=prompt('الرمز الجديد (6 أرقام):');if(p==null)return;if(!/^[0-9]{6}$/.test(p)){toast('الرمز لازم يكون 6 أرقام');return}CH.rpc('chal_set_pin',{p_token:TOKEN,p_pin:p}).then(function(){toast('تم تغيير الرمز')}).catch(function(){toast('تعذّر التغيير')})});
+function status(en){var ST={pending:'<span class="tag y">بانتظار الاعتماد</span>',approved:'<span class="tag g">في الشارع</span>',hidden:'<span class="tag">غير معروض</span>'};
+  $('#st').innerHTML=en?ST[en.status]+(en.status==='approved'?' <span class="num">'+(en.votes||0)+'</span> صوت · <span class="num">'+(en.views||0)+'</span> قراءة · <a href="project.html?p='+en.slug+'">افتح الصفحة</a>':''):'<span class="tag">ما أرسلت مشروعك بعد</span>'}
+/* load */
+CH.rpc('chal_me',{p_token:TOKEN}).then(function(m){if(!m||!m.name){CH.logout();location.replace('join.html');return}
+  ID=m.id;NAME=m.name;CH.setMe({token:TOKEN,id:m.id,name:m.name});$('#who').textContent=m.name;$('#acc').textContent='مسجّل برقم '+m.phone;
+  var d=null;try{d=JSON.parse(localStorage.getItem(dkey())||'null')}catch(e){}
+  if(m.entry){ENTRY=m.entry;SLUG=m.entry.slug;load({title:m.entry.title,summary:m.entry.summary,reel:m.entry.reel_url,body:m.entry.body,media:m.entry.media});status(m.entry);
+    if(d&&d.title&&ENTRY.updated_at&&new Date(d.t||0)>new Date(ENTRY.updated_at)){load(d)}}
+  else{status(null);if(d)load(d)}
+  if(!m.has_pin||q.get('setpin')){var p=prompt('اختر رمز دخول من 6 أرقام لصفحتك:');if(p&&/^[0-9]{6}$/.test(p))CH.rpc('chal_set_pin',{p_token:TOKEN,p_pin:p}).then(function(){toast('تم حفظ الرمز')})}
+  if(q.get('new'))toast('أهلاً! اكتب فكرتك وارفع ملفاتك.');
+}).catch(function(){CH.logout();location.replace('join.html')});
+})();
+</script>
+</body></html>

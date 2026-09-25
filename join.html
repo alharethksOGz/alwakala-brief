@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سجّل في التحدي · أشعلوا الشارع</title>
+<meta name="description" content="سجّل في تحدي أشعلوا الشارع وافتح صفحة مشروعك: فكرة حملة إطلاق الوكالة.ai، فيديو أو مقترح أو صور.">
+<meta property="og:title" content="سجّل في تحدي أشعلوا الشارع"><meta property="og:image" content="https://alharethksogz.github.io/alwakala-brief/assets/og.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/chal.css">
+<style>
+.steps{display:flex;gap:8px;margin:0 0 22px;font-size:13px;color:var(--g3)}
+.steps b{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--g2)}
+.steps b.on{border-color:var(--m);color:var(--paper)}
+.steps b i{font-style:normal;font-family:Archivo,sans-serif;color:var(--m)}
+.pin2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pin2 input{letter-spacing:.35em;text-align:center;font-family:Archivo,sans-serif;font-size:20px}
+.why{background:var(--ink2);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--g2);margin-top:8px;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="chbar"></div>
+<div class="wrap narrow">
+  <div class="steps"><b class="on"><i>1</i> سجّل</b><b><i>2</i> صفحة مشروعك</b><b><i>3</i> شارع الأفكار</b></div>
+  <h1>خلّ اسمك <b>على الشارع.</b></h1>
+  <p class="sub">دقيقة واحدة: اسمك ورقمك ورمز من 6 أرقام تختاره أنت. بعدها تفتح صفحة مشروعك مباشرة، وتقدر ترجع لها في أي وقت من زر «دخول» أعلى الموقع.</p>
+
+  <div class="card" id="already" hidden>
+    <p style="margin:0 0 12px;font-size:18px">أنت مسجّل باسم <b id="alname"></b>.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn m" href="submit.html">افتح صفحة مشروعي</a><button type="button" class="btn" id="alout">خروج</button></div>
+  </div>
+
+  <form class="card" id="jf" novalidate autocomplete="on">
+    <div class="two">
+      <label class="f"><span>الاسم <i>مطلوب</i></span><input name="name" required maxlength="80" autocomplete="name" placeholder="اسمك أو اسم الفريق"></label>
+      <label class="f"><span>رقم الواتساب <i>مطلوب</i></span><input name="phone" required inputmode="tel" dir="ltr" placeholder="05xxxxxxxx" maxlength="20" autocomplete="tel"></label>
+      <label class="f"><span>المدينة</span><input name="city" maxlength="60" autocomplete="address-level2"></label>
+      <label class="f"><span>أنت</span><select name="role"><option value="freelancer">فريلانسر</option><option value="creator">صانع محتوى</option><option value="student">طالب</option><option value="owner">صاحب محل</option><option value="agency">من وكالة إعلان</option><option value="other">غير ذلك</option></select></label>
+      <label class="f"><span>حسابك (إنستقرام / تيك توك / X)</span><input name="handle" dir="ltr" maxlength="80" placeholder="@"></label>
+      <label class="f"><span>اسم الفريق (اختياري)</span><input name="team" maxlength="80"></label>
+    </div>
+    <label class="f" style="margin-top:4px"><span>رمز الدخول <i>6 أرقام</i></span></label>
+    <div class="pin2">
+      <input name="pin" inputmode="numeric" type="password" maxlength="6" pattern="[0-9]{6}" autocomplete="new-password" placeholder="••••••" aria-label="الرمز">
+      <input name="pin2" inputmode="numeric" type="password" maxlength="6" pattern="[0-9]{6}" autocomplete="new-password" placeholder="تأكيد الرمز" aria-label="تأكيد الرمز">
+    </div>
+    <p class="why">الرمز هو مفتاح صفحتك: تدخل به من أي جهاز لتعدّل مشروعك قبل 26 أكتوبر. احفظه، ولو نسيته راسل <a href="mailto:win@alwakala.ai">win@alwakala.ai</a> من نفس رقمك.</p>
+    <input name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+    <label class="chk"><input type="checkbox" name="terms" required> <span>قرأت <a href="terms.html" target="_blank" rel="noopener">الشروط</a> وأوافق عليها، وأسمح بعرض مشروعي في «شارع الأفكار» بعد اعتماده.</span></label>
+    <label class="chk"><input type="checkbox" name="consent" checked> <span>أحب تتواصلون معي لبرنامج صنّاع المحتوى في حملة الإطلاق.</span></label>
+    <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button type="submit" class="btn m" id="go">سجّلني وافتح صفحة مشروعي</button>
+      <button type="button" class="btn" id="haveacc">عندي حساب · دخول</button>
+    </div>
+    <p class="err" id="err" role="alert"></p>
+  </form>
+  <p class="foot">التسجيل وتقديم المشاريع حتى 26 أكتوبر 2026، 11:59 مساءً بتوقيت الرياض · <a href="brief.html">اقرأ الـBrief</a> قبل ما تكتب فكرتك.</p>
+</div>
+<script src="assets/chal.js"></script>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};var hdr=CH.header('join');CH.track();
+var ERR={name:'اكتب اسمك.',phone:'رقم الواتساب غير صحيح.',terms:'لازم توافق على الشروط.',pin:'الرمز لازم يكون 6 أرقام.',closed:'قفل التسجيل يوم 26 أكتوبر.',rate:'جرّب بعد شوي.'};
+function chErr(e){var k=String(e&&e.message||'');for(var key in ERR)if(k.indexOf(key)>=0)return ERR[key];return 'صار خطأ. جرّب مرة ثانية.'}
+/* personal link ?e=token → sign in directly */
+var q=new URLSearchParams(location.search),tok=q.get('e');
+if(tok&&/^[0-9a-f-]{36}$/i.test(tok)){CH.rpc('chal_me',{p_token:tok}).then(function(m){if(m&&m.name){CH.setMe({token:tok,id:m.id,name:m.name});location.replace('submit.html'+(m.has_pin?'':'?setpin=1'))}}).catch(function(){})}
+var me=CH.me();if(me){$('#already').hidden=false;$('#alname').textContent=me.name||'';$('#jf').hidden=true}
+$('#alout').addEventListener('click',function(){CH.logout();location.reload()});
+$('#haveacc').addEventListener('click',function(){hdr.open()});
+CH.event('join_start');
+$('#jf').addEventListener('submit',function(e){e.preventDefault();var f=e.target,b=$('#go');$('#err').textContent='';
+  if(f.name.value.trim().length<2){$('#err').textContent=ERR.name;return}
+  if(!/^[0-9]{6}$/.test(f.pin.value)){$('#err').textContent=ERR.pin;return}
+  if(f.pin.value!==f.pin2.value){$('#err').textContent='الرمزان غير متطابقين.';return}
+  if(!f.terms.checked){$('#err').textContent=ERR.terms;return}
+  b.disabled=true;b.textContent='لحظة…';
+  CH.rpc('chal_register',{p_name:f.name.value.trim(),p_phone:f.phone.value,p_city:f.city.value.trim(),p_role:f.role.value,p_handle:f.handle.value.trim(),p_team:f.team.value.trim(),p_consent:f.consent.checked,p_terms:true,p_source:document.referrer.slice(0,120),p_device:CH.dev(),p_hp:f.website.value,p_pin:f.pin.value})
+  .then(function(j){
+    if(j.need_login){$('#err').innerHTML='هذا الرقم مسجّل من قبل باسم <b>'+CH.esc(j.name||'')+'</b>. ادخل برمزك.';hdr.open();var ph=document.querySelector('#chlf input[name=phone]');if(ph)ph.value=f.phone.value;return}
+    CH.setMe({token:j.token,id:j.id,name:j.name||f.name.value.trim()});CH.event('join_done',{existing:!!j.existing});
+    location.href='submit.html'+(j.existing?'':'?new=1')})
+  .catch(function(err){$('#err').textContent=chErr(err)}).then(function(){b.disabled=false;b.textContent='سجّلني وافتح صفحة مشروعي'})});
+})();
+</script>
+</body></html>

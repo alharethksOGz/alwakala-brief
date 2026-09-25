@@ -8,11 +8,11 @@
 <meta name="theme-color" content="#141312">
 <meta name="color-scheme" content="dark">
 <title>الوكالة.ai · تحدي أشعلوا الشارع</title>
-<meta name="description" content="تحدي أشعلوا الشارع: فكرة حملة، فيديو أو مقترح، عشرة فائزين وجوائز تتجاوز 130,000 ريال. يقفل 15 أكتوبر 2026.">
+<meta name="description" content="تحدي أشعلوا الشارع: فكرة حملة إطلاق الوكالة.ai، 10,000 ريال نقداً وجوائز أخرى كثيرة لعشرة فائزين. التقديم حتى 26 أكتوبر 2026.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_SA">
 <meta property="og:title" content="تحدي أشعلوا الشارع · الوكالة.ai">
-<meta property="og:description" content="اقرأ الـBrief، وشارك بفكرتك: فيديو أو مقترح مكتوب، قبل 15 أكتوبر. عشرة فائزين، والمركز الأول 10,000 ريال وحساب برو سنة كاملة وحملة باسمك.">
+<meta property="og:description" content="اقرأ الـBrief، وقدّم مشروعك قبل 26 أكتوبر. 10,000 ريال نقداً وجوائز أخرى كثيرة لعشرة فائزين، والفكرة الأولى تصير حملة الإطلاق باسم صاحبها.">
 <meta property="og:url" content="https://alharethksogz.github.io/alwakala-brief/">
 <meta property="og:image" content="https://alharethksogz.github.io/alwakala-brief/assets/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -145,14 +145,15 @@ bdi{unicode-bidi:isolate}
 
 <main class="gate">
   <div class="panel" id="panel">
-    <p class="kick"><b>تحدي</b><span>أشعلوا الشارع · يقفل 15 أكتوبر 2026</span></p>
+    <p class="kick"><b>تحدي</b><span>أشعلوا الشارع · 26 سبتمبر إلى 25 نوفمبر 2026</span></p>
     <h1 class="logo"><svg viewBox="0 0 500 144" role="img" aria-label="الوكالة"><use href="#wm"/></svg><span class="sr">الوكالة.ai</span></h1>
-    <p class="line">كل نافذة في هالشارع صنعة أحد.<b>فكرتك تقدر تشعلها. عشرة فائزين، وجوائز تتجاوز 130,000 ريال.</b></p>
+    <p class="line">كل نافذة في هالشارع صنعة أحد.<b>فكرتك تقدر تشعلها. 10,000 ريال نقداً، وجوائز أخرى كثيرة لعشرة فائزين.</b></p>
     <div class="cta">
       <button type="button" class="go" id="go">اقرأ الـBrief وشارك</button>
       <a class="go ghost" href="gallery.html">شارع الأفكار</a>
+      <a class="go ghost" href="join.html" id="joinlink">سجّل مشروعك · دخول</a>
       <p class="hint" id="cnt">&nbsp;</p>
-      <p class="hint">فكرة حملة: فيديو أو مقترح مكتوب أو الاثنين · مفتوح للجميع · <a href="terms.html" style="color:var(--g1)">الشروط</a></p>
+      <p class="hint">فكرة حملة: نص وفيديو وصور وملفات · مفتوح للجميع · التقديم حتى 26 أكتوبر · <a href="terms.html" style="color:var(--g1)">الشروط</a></p>
     </div>
   </div>
   <noscript><p class="nos">هذي الصفحة تحتاج JavaScript. <a href="brief.html" style="color:var(--m)">افتح الـBrief مباشرة</a>.</p></noscript>
@@ -163,7 +164,7 @@ bdi{unicode-bidi:isolate}
     <p class="hello" id="hello">قبل ما تبدأ</p>
     <h2 id="dt">هذا تحدي، وأفضل فكرة تفوز.</h2>
     <div id="dd">
-      <p>عشرة فائزين: 10,000 ريال نقداً، وحسابات برو وستارتر ولايت لسنة كاملة، والفكرة الأولى تصير حملة الإطلاق الحقيقية باسم صاحبها. وتذكّر: الموضوع مو بس فلوس.</p>
+      <p>10,000 ريال نقداً وجوائز أخرى كثيرة لعشرة فائزين، والفكرة الأولى تصير حملة الإطلاق الحقيقية باسم صاحبها. وتذكّر: الموضوع مو بس فلوس.</p>
       <p>ورا كل نافذة شفتها تنوّر، أسرة تعيش منها.</p>
       <p class="hi">أنت فعلاً تساعد المحلات الصغيرة والمشاريع العائلية إنها تبقى، وتكبر.</p>
     </div>
@@ -175,9 +176,11 @@ bdi{unicode-bidi:isolate}
 <div class="fade" id="fade"></div>
 <div class="bootmark" aria-hidden="true"><svg viewBox="0 0 500 144"><use href="#wm"/></svg></div>
 
+<script src="assets/chal.js"></script>
 <script>
 (function(){
 'use strict';
+if(window.CH){CH.track();var _m=CH.me();if(_m){var jl=document.getElementById('joinlink');if(jl){jl.textContent='مشروعي · '+(_m.name||'').split(' ')[0];jl.href='submit.html'}}}
 var A='assets/';var $=function(s){return document.getElementById(s)};var doc=document.documentElement;
 var RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 var O=(window.matchMedia&&matchMedia('(max-aspect-ratio: 17/20)').matches)?'9x16':'16x9';
@@ -195,7 +198,7 @@ function reveal(){revealing=true;doc.classList.add('revealing');var done=false;
     setTimeout(function(){if((on.paused&&!on.ended)||on.currentTime<0.5){on.classList.remove('on');lit.classList.add('on')}},1600)};
   if(p&&p.then)p.then(started).catch(still);else started();setTimeout(function(){if(!done)still()},2500)}
 function go(){fade.classList.add('on');setTimeout(function(){location.href='brief.html'},RM?0:420)}
-$('go').addEventListener('click',function(){if(revealing)return;reveal()});
+$('go').addEventListener('click',function(){if(revealing)return;if(window.CH)CH.event('landing_go');reveal()});
 enter.addEventListener('click',go);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!dlg.hidden)go()});
 document.addEventListener('visibilitychange',function(){if(document.hidden)return;var v=revealing?(on.classList.contains('on')&&!on.ended?on:null):(idle.src?idle:null);if(v&&v.paused){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
@@ -204,7 +207,7 @@ if(!RM){idle.src=A+'street-idle-'+O+'.mp4';idle.addEventListener('playing',funct
 /* live counter */
 fetch('https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/chal_stats',{method:'POST',headers:{apikey:'sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo',Authorization:'Bearer sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo','Content-Type':'application/json'},body:'{}'})
   .then(function(r){return r.json()}).then(function(s){var n=+s.registered||0,m=+s.approved||0;var d=Math.max(0,Math.ceil((new Date(s.deadline)-Date.now())/864e5));
-    $('cnt').innerHTML=(n?'<b>'+n.toLocaleString('en-US')+'</b> مشارك سجّل':'كن أول من يسجّل')+(m?' · <b>'+m+'</b> فكرة في الشارع':'')+' · باقي <b>'+d+'</b> يوم'}).catch(function(){$('cnt').textContent=''});
+    $('cnt').innerHTML=(n?'<b>'+n.toLocaleString('en-US')+'</b> مشارك سجّل':'كن أول من يسجّل')+(m?' · <b>'+m+'</b> مشروع في الشارع':'')+' · باقي <b>'+d+'</b> يوم للتقديم'}).catch(function(){$('cnt').textContent=''});
 doc.classList.remove('boot');
 })();
 </script>

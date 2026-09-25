@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مشروع · شارع الأفكار</title>
+<meta name="description" content="مشروع في تحدي أشعلوا الشارع: فكرة حملة إطلاق الوكالة.ai. اقرأ وصوّت.">
+<meta property="og:title" content="مشروع في شارع الأفكار"><meta property="og:image" content="https://alharethksogz.github.io/alwakala-brief/assets/og.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/chal.css">
+<style>
+.hero{position:relative;border-radius:26px;overflow:hidden;background:#0c0c0b;min-height:300px;display:flex;align-items:flex-end;margin-bottom:22px;border:1px solid var(--line)}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.45) saturate(1.1);transform:scale(1.1)}
+.hero .cv{position:relative;z-index:1;width:min(300px,42%);aspect-ratio:3/4;border-radius:18px;overflow:hidden;margin:26px;flex:none;box-shadow:0 18px 50px rgba(0,0,0,.5);background:#1C1C1B}
+.hero .cv img{width:100%;height:100%;object-fit:cover}
+.hero .tx{position:relative;z-index:1;padding:26px 26px 26px 0;flex:1;min-width:0}
+.hero h1{font-size:clamp(26px,3.6vw,44px);margin:0 0 8px}
+.hero .sm{font-size:clamp(16px,1.6vw,20px);color:var(--g1);margin:0 0 14px}
+.who{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--g2)}
+.who .av{width:36px;height:36px;border-radius:50%;background:var(--m);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:16px}
+.who .st{margin-inline-start:auto;display:flex;gap:12px;color:var(--g2)}
+.who .st b{color:var(--paper)}
+@media (max-width:640px){.hero{flex-direction:column;align-items:stretch}.hero .cv{width:auto;aspect-ratio:16/10;margin:14px 14px 0}.hero .tx{padding:14px 16px 20px}}
+.lay{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:start}
+@media (max-width:860px){.lay{grid-template-columns:1fr}}
+.art h3{font-size:14px;color:var(--m);margin:22px 0 6px;font-weight:800}
+.art h3:first-child{margin-top:0}
+.art p{font-size:19px;margin:0;white-space:pre-wrap;line-height:1.85}
+.art .hook{font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.4;margin-bottom:22px;color:var(--paper)}
+.media{display:grid;gap:12px}
+.md{position:relative;border-radius:18px;overflow:hidden;background:#0c0c0b;border:1px solid var(--line)}
+.md video{width:100%;max-height:70vh;background:#000;display:block}
+.md .pl{position:relative;cursor:pointer;aspect-ratio:9/16;max-height:520px}
+.md .pl img{width:100%;height:100%;object-fit:cover}
+.md .pl::after{content:"";position:absolute;left:50%;top:50%;width:64px;height:64px;border-radius:50%;background:rgba(20,19,18,.8);border:1.5px solid rgba(247,247,245,.4);transform:translate(-50%,-50%)}
+.md .pl::before{content:"";position:absolute;left:calc(50% + 4px);top:50%;transform:translate(-50%,-50%);border-left:18px solid #EDEDEA;border-top:11px solid transparent;border-bottom:11px solid transparent;z-index:1}
+.md img.im{width:100%;cursor:zoom-in}
+.md .pdf{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.md .pdf b{flex:1;font-size:15px;word-break:break-all}
+.md iframe{width:100%;height:70vh;border:0;background:#fff}
+.imgs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.imgs .md{aspect-ratio:1;display:grid}.imgs .md img{width:100%;height:100%;object-fit:cover}
+.lb{position:fixed;inset:0;z-index:95;background:rgba(10,10,9,.92);display:grid;place-items:center;padding:16px}
+.lb[hidden]{display:none}.lb img{max-width:100%;max-height:92vh;border-radius:12px}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;align-items:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(20,19,18,.94);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
+.sticky .vote{background:var(--m);color:var(--ink);border:0;border-radius:999px;padding:12px 22px;font:800 17px inherit;font-family:inherit;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.sticky .vote[aria-pressed="true"]{background:var(--paper)}
+.sticky .cnt{font-size:14px;color:var(--g2)}
+.sticky .cnt b{color:var(--paper);font-family:Archivo,sans-serif}
+.sticky .sp{flex:1}
+.sticky .btn.sm{padding:8px 12px}
+@media (max-width:520px){.sticky .hidem{display:none}}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:26px}
+.reel{margin-top:14px;font-size:14px}
+</style>
+</head>
+<body>
+<div id="chbar"></div>
+<div class="wrap" id="main"><p class="sub">يحمّل المشروع…</p></div>
+<div class="lb" id="lb" hidden><img alt=""></div>
+<div class="toast" id="toast"></div>
+<script src="assets/chal.js"></script>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};CH.header('gallery');CH.track();
+var slug=new URLSearchParams(location.search).get('p'),P=null,voted={};try{voted=JSON.parse(localStorage.getItem('aw_votes')||'{}')}catch(e){}
+function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2200)}
+function ini(n){return (n||'؟').trim().charAt(0)}
+if(!slug||!/^[a-z0-9]{4,12}$/.test(slug)){$('#main').innerHTML='<div class="empty">ما وجدنا هذا المشروع. <a href="gallery.html">ارجع للشارع</a>.</div>';return}
+CH.rpc('chal_project',{p_slug:slug,p_session:CH.sid}).then(function(p){if(!p){$('#main').innerHTML='<div class="empty">هذا المشروع غير معروض حالياً. <a href="gallery.html">ارجع للشارع</a>.</div>';return}P=p;render()})
+.catch(function(){$('#main').innerHTML='<div class="empty">تعذّر تحميل المشروع. جرّب بعد شوي.</div>'});
+function render(){var p=P,b=p.body||{},media=Array.isArray(p.media)?p.media:[];
+  if(!media.length&&p.video)media=[{kind:'video',path:p.video,poster:p.poster}];
+  document.title=p.title+' · شارع الأفكار';var md=document.querySelector('meta[property="og:title"]');if(md)md.content=p.title;
+  var cover=p.cover||p.poster||(media.filter(function(m){return m.kind==='image'})[0]||{}).path;
+  var vids=media.filter(function(m){return m.kind==='video'}),imgs=media.filter(function(m){return m.kind==='image'}),pdfs=media.filter(function(m){return m.kind==='pdf'});
+  $('#main').innerHTML='<div class="hero">'+(cover?'<div class="bg" style="background-image:url('+CH.pub(cover)+')"></div><div class="cv"><img src="'+CH.pub(cover)+'" alt=""></div>':'<div class="bg" style="background:linear-gradient(160deg,#2a1a24,#141312)"></div>')
+    +'<div class="tx">'+(p.rank?'<span class="tag m" style="margin-bottom:10px">'+(p.rank===1?'المركز الأول':'المركز '+p.rank)+'</span>':'')+'<h1>'+CH.esc(p.title)+'</h1>'+(p.summary?'<p class="sm">'+CH.esc(p.summary)+'</p>':'')
+    +'<div class="who"><span class="av">'+CH.esc(ini(p.name))+'</span><span><b>'+CH.esc(p.name)+'</b>'+(p.handle?' · <bdi>'+CH.esc(p.handle)+'</bdi>':'')+(p.city?' · '+CH.esc(p.city):'')+'</span><span class="st"><span>♥ <b class="num" id="vc">'+p.votes+'</b></span><span>👁 <b class="num">'+CH.fmt(p.views)+'</b></span></span></div></div></div>'
+    +'<div class="lay"><div class="card art">'+(b.hook?'<div class="hook">'+CH.esc(b.hook)+'</div>':'')
+    +CH.SEC.filter(function(s){return s[0]!=='hook'&&b[s[0]]}).map(function(s){return '<h3>'+s[1]+'</h3><p>'+CH.esc(b[s[0]])+'</p>'}).join('')
+    +(!Object.keys(b).length?'<p class="hint">هذا المشروع فيديو بدون نص مكتوب.</p>':'')
+    +(p.reel_url?'<p class="reel"><a href="'+CH.esc(p.reel_url)+'" target="_blank" rel="noopener" data-ev="reel">شاهده على حساب صاحبه ↗</a></p>':'')+'</div>'
+    +'<div class="media">'+vids.map(function(m,i){return '<div class="md"><div class="pl" data-v="'+i+'">'+(m.poster?'<img src="'+CH.pub(m.poster)+'" alt="">':'')+'</div></div>'}).join('')
+    +(imgs.length?'<div class="imgs">'+imgs.map(function(m){return '<div class="md"><img class="im" loading="lazy" src="'+CH.pub(m.path)+'" alt=""></div>'}).join('')+'</div>':'')
+    +pdfs.map(function(m,i){return '<div class="md"><div class="pdf"><span>📄</span><b>'+CH.esc(m.name||'ملف المقترح')+'</b><button type="button" class="btn sm" data-pdf="'+i+'">اقرأ</button><a class="btn sm" href="'+CH.pub(m.path)+'" target="_blank" rel="noopener" data-ev="pdf_dl">تنزيل</a></div><div class="pdfv" hidden></div></div>'}).join('')
+    +(!media.length?'<div class="empty">بدون ملفات.</div>':'')+'</div></div>'
+    +'<div class="nav">'+(p.next?'<a class="btn" href="project.html?p='+p.next+'">المشروع التالي ←</a>':'<span></span>')+(p.prev?'<a class="btn" href="project.html?p='+p.prev+'">→ المشروع السابق</a>':'')+'</div>'
+    +'<p class="foot">كل فكرة تبقى لصاحبها. التصويت صوت واحد لكل جهاز لكل مشروع. <span dir="ltr">#الوكالة_في_جيبك</span></p>'
+    +'<div class="sticky"><button type="button" class="vote" id="vote" aria-pressed="'+(voted[p.id]?'true':'false')+'">♥ '+(voted[p.id]?'صوّتت':'صوّت للمشروع')+'</button><span class="cnt hidem"><b id="vc2">'+p.votes+'</b> صوت</span><span class="sp"></span>'
+    +'<a class="btn sm" id="shwa" target="_blank" rel="noopener">واتساب</a><a class="btn sm hidem" id="shx" target="_blank" rel="noopener">X</a><button type="button" class="btn sm" id="cp">نسخ الرابط</button><a class="btn sm hidem" href="gallery.html">الشارع</a></div>';
+  var url=CH.base()+'project.html?p='+p.slug,txt='«'+p.title+'» مشروع في تحدي أشعلوا الشارع من الوكالة.ai. اقرأه وصوّت له:\n#الوكالة_في_جيبك';
+  $('#shwa').href='https://wa.me/?text='+encodeURIComponent(txt+'\n'+url);$('#shx').href='https://x.com/intent/tweet?text='+encodeURIComponent(txt)+'&url='+encodeURIComponent(url);
+  $('#cp').addEventListener('click',function(){try{navigator.clipboard.writeText(url);toast('انسخت الرابط')}catch(e){prompt('الرابط:',url)}CH.event('share_click',{where:'project',how:'copy',entry:p.id})});
+  $('#shwa').addEventListener('click',function(){CH.event('share_click',{where:'project',how:'wa',entry:p.id})});$('#shx').addEventListener('click',function(){CH.event('share_click',{where:'project',how:'x',entry:p.id})});
+  $('#main').addEventListener('click',function(e){
+    var pl=e.target.closest('.pl');if(pl){var m=vids[+pl.dataset.v],v=document.createElement('video');v.src=CH.pub(m.path);v.controls=true;v.playsInline=true;v.autoplay=true;v.poster=m.poster?CH.pub(m.poster):'';pl.parentNode.replaceChild(v,pl);v.play().catch(function(){});CH.event('video_play',{entry:p.id,path:m.path});return}
+    var im=e.target.closest('img.im');if(im){$('#lb img').src=im.src;$('#lb').hidden=false;CH.event('image_open',{entry:p.id});return}
+    var pb=e.target.closest('[data-pdf]');if(pb){var mm=pdfs[+pb.dataset.pdf],box=pb.closest('.md').querySelector('.pdfv');if(box.hidden){box.innerHTML='<iframe src="'+CH.pub(mm.path)+'#toolbar=0" title="PDF"></iframe>';box.hidden=false;pb.textContent='أغلق';CH.event('pdf_open',{entry:p.id,path:mm.path})}else{box.hidden=true;box.innerHTML='';pb.textContent='اقرأ'}return}
+    var ev=e.target.closest('[data-ev]');if(ev)CH.event(ev.dataset.ev,{entry:p.id})});
+  $('#vote').addEventListener('click',function(){var b=this;if(voted[p.id]){toast('صوّتت لهذا المشروع من قبل');return}b.disabled=true;
+    CH.rpc('chal_vote',{p_entry:p.id,p_device:CH.dev(),p_session:CH.sid}).then(function(r){if(r&&r.ok===false){var k=r.error||'';toast(k==='closed'?'انتهى التصويت.':k==='rate'?'أصوات كثيرة من هذه الشبكة اليوم.':'تعذّر التصويت');return}if(r&&r.ok){voted[p.id]=1;try{localStorage.setItem('aw_votes',JSON.stringify(voted))}catch(x){}$('#vc').textContent=r.votes;$('#vc2').textContent=r.votes;b.setAttribute('aria-pressed','true');b.textContent='♥ صوّتت';toast(r.counted?'وصل صوتك. شكراً':'صوتك محسوب من قبل')}})
+    .catch(function(err){var k=String(err.message||'');toast(k.indexOf('closed')>=0?'انتهى التصويت.':k.indexOf('rate')>=0?'أصوات كثيرة من هذه الشبكة اليوم.':'تعذّر التصويت')}).then(function(){b.disabled=false})});
+}
+$('#lb').addEventListener('click',function(){this.hidden=true});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')$('#lb').hidden=true});
+})();
+</script>
+</body></html>
