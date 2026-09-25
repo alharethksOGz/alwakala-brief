@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>مشروع · شارع الأفكار</title>
-<meta name="description" content="مشروع في تحدي أشعلوا الشارع: فكرة حملة إطلاق الوكالة.ai. اقرأ وصوّت.">
+<meta name="description" content="مشروع في مسابقة أفضل فكرة لإطلاق الوكالة.ai: فكرة حملة إطلاق الوكالة.ai. اقرأ وصوّت.">
 <meta property="og:title" content="مشروع في شارع الأفكار"><meta property="og:image" content="https://alharethksogz.github.io/alwakala-brief/assets/og.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
@@ -89,7 +89,7 @@ function render(){var p=P,b=p.body||{},media=Array.isArray(p.media)?p.media:[];
     +'<p class="foot">كل فكرة تبقى لصاحبها. التصويت صوت واحد لكل جهاز لكل مشروع. <span dir="ltr">#الوكالة_في_جيبك</span></p>'
     +'<div class="sticky"><button type="button" class="vote" id="vote" aria-pressed="'+(voted[p.id]?'true':'false')+'">♥ '+(voted[p.id]?'صوّتت':'صوّت للمشروع')+'</button><span class="cnt hidem"><b id="vc2">'+p.votes+'</b> صوت</span><span class="sp"></span>'
     +'<a class="btn sm" id="shwa" target="_blank" rel="noopener">واتساب</a><a class="btn sm hidem" id="shx" target="_blank" rel="noopener">X</a><button type="button" class="btn sm" id="cp">نسخ الرابط</button><a class="btn sm hidem" href="gallery.html">الشارع</a></div>';
-  var url=CH.base()+'project.html?p='+p.slug,txt='«'+p.title+'» مشروع في تحدي أشعلوا الشارع من الوكالة.ai. اقرأه وصوّت له:\n#الوكالة_في_جيبك';
+  var url=CH.base()+'project.html?p='+p.slug,txt='«'+p.title+'» مشروع في مسابقة أفضل فكرة لإطلاق الوكالة.ai. اقرأه وصوّت له:\n#الوكالة_في_جيبك';
   $('#shwa').href='https://wa.me/?text='+encodeURIComponent(txt+'\n'+url);$('#shx').href='https://x.com/intent/tweet?text='+encodeURIComponent(txt)+'&url='+encodeURIComponent(url);
   $('#cp').addEventListener('click',function(){try{navigator.clipboard.writeText(url);toast('انسخت الرابط')}catch(e){prompt('الرابط:',url)}CH.event('share_click',{where:'project',how:'copy',entry:p.id})});
   $('#shwa').addEventListener('click',function(){CH.event('share_click',{where:'project',how:'wa',entry:p.id})});$('#shx').addEventListener('click',function(){CH.event('share_click',{where:'project',how:'x',entry:p.id})});

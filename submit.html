@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>مشروعي · تحدي أشعلوا الشارع</title>
+<title>مشروعي · مسابقة أفضل فكرة لإطلاق الوكالة.ai</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
@@ -74,7 +74,7 @@
     <div class="kick" style="justify-content:center">وصل مشروعك</div>
     <div class="ref" id="ref"></div>
     <p class="sub" style="margin:8px auto 18px;text-align:center">بانتظار اعتماد فريق الوكالة.ai، وبعدها يظهر في «شارع الأفكار» على هذا الرابط:<br><a id="plink" href="#" dir="ltr"></a></p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn m" id="shwa" target="_blank" rel="noopener">شارك التحدي على واتساب</a><a class="btn" href="gallery.html">شارع الأفكار</a><button type="button" class="btn" id="again">عدّل المشروع</button></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn m" id="shwa" target="_blank" rel="noopener">شارك المسابقة على واتساب</a><a class="btn" href="gallery.html">شارع الأفكار</a><button type="button" class="btn" id="again">عدّل المشروع</button></div>
   </div>
 
   <div class="acct"><span id="acc"></span><button type="button" id="chpin">تغيير كلمة المرور</button><button type="button" id="out">خروج</button></div>
@@ -146,7 +146,7 @@ pf.addEventListener('submit',function(e){e.preventDefault();$('#err').textConten
   CH.rpc('chal_submit',{p_token:TOKEN,p_title:pf.title.value.trim(),p_summary:pf.summary.value.trim()||null,p_body:body,p_reel_url:pf.reel.value.trim()||null,
     p_media:ok.map(function(m){return {path:m.path,kind:m.kind,poster:m.poster||null,name:m.name,w:m.w||null,h:m.h||null}})})
   .then(function(j){SLUG=j.slug;$('#ref').textContent=j.ref;var url=CH.base()+'project.html?p='+j.slug;$('#plink').textContent=url;$('#plink').href=url;
-    $('#shwa').href=CH.share('شاركت في تحدي «أشعلوا الشارع» من الوكالة.ai بمشروع «'+pf.title.value.trim()+'». 10,000 ريال نقداً وجوائز أخرى كثيرة. شارك أنت كمان قبل 26 أكتوبر:\n#الوكالة_في_جيبك',CH.base());
+    $('#shwa').href=CH.share('شاركت في مسابقة أفضل فكرة لإطلاق الوكالة.ai بمشروع «'+pf.title.value.trim()+'». 10,000 ريال نقداً وجوائز أخرى كثيرة. شارك أنت كمان قبل 26 أكتوبر:\n#الوكالة_في_جيبك',CH.base());
     $('#pf').hidden=true;$('#pv').hidden=true;$('#done').hidden=false;CH.event('submit_done',{files:ok.length});status({status:'pending',slug:j.slug});window.scrollTo(0,0)})
   .catch(function(err){var k=String(err.message||'');$('#err').textContent=k.indexOf('closed')>=0?'قفل التسجيل يوم 26 أكتوبر.':k.indexOf('missing')>=0?'ملف لم يكتمل رفعه. احذفه وأعد رفعه.':k.indexOf('total')>=0?'مجموع الملفات يتجاوز 250 MB.':'صار خطأ. جرّب مرة ثانية.'})
   .then(function(){b.disabled=false;b.textContent='أرسل مشروعي'})});
