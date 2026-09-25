@@ -110,6 +110,10 @@ p,h1,h2,h3,h4{margin:0}
 .verdict{margin-top:14px;padding:16px 18px;border-radius:16px;background:var(--ink);color:#EDEDEA;font-size:18px;line-height:1.6}
 .verdict b{color:var(--m)}
 .verdict .ok{color:var(--grn)}
+.verdict .vs{margin-top:14px;padding:14px 16px;border-radius:14px;background:rgba(46,158,107,.14);border:1.5px solid rgba(46,158,107,.55)}
+.verdict .vs small{display:block;font-size:15px;color:#DCDCD7;line-height:1.6}
+.verdict .vs .n{display:block;font-family:var(--num);font-weight:800;font-size:clamp(34px,3.4vw,46px);color:var(--grn);line-height:1.15;margin:6px 0 4px;direction:ltr;unicode-bidi:isolate;text-align:start}
+.verdict .vs .n i{font-style:normal;font-family:var(--ar);font-size:.45em;font-weight:700;color:var(--grn)}
 .hint{font-size:13px;color:var(--g3);margin-top:10px}
 
 /* ---------- 4 alternatives ---------- */
@@ -1361,10 +1365,10 @@ function calc(){var rev=+rRev.value,mar=+rMar.value,ag=+rAg.value,pro=rev*mar/10
   $('#bAg').style.width=(Math.min(100,ag/rev*100)*calcK[2])+'%';$('#bUs').style.width=(Math.max(.8,699/rev*100)*calcK[3])+'%';
   var s;if(LANG==='en'){s='The agency costs <b>'+Math.round(ag/rev*100)+'%</b> of your income and <b>'+Math.round(ag/pro*100)+'%</b> of your profit. ';
   s+=net<0?'After 3 months: a loss of <b>'+fmt(-net*3)+'</b> riyals from your capital.':'After 3 months you keep just <b>'+fmt(net*3)+'</b> riyals.';
-  s+='<br>Alwakalah.ai Starter: <span class="ok">'+(699/rev*100).toFixed(1)+'%</span> of your income.'}else{
+  s+='<div class="vs"><small>With Alwakalah.ai Starter, 699 riyals a month (<b class="ok">'+(699/rev*100).toFixed(1)+'%</b> of your income), after 3 months you keep</small><span class="n">'+fmt(Math.max(0,(pro-699)*3))+' <i>riyals</i></span><small>instead of '+(net<0?'a loss of '+fmt(-net*3):fmt(net*3))+' with the agency.</small></div>'}else{
   s='وكالة الإعلان تساوي <b>'+Math.round(ag/rev*100)+'%</b> من دخلك، و<b>'+Math.round(ag/pro*100)+'%</b> من ربحك. ';
   s+=net<0?'بعد 3 أشهر: خسارة <b>'+fmt(-net*3)+'</b> ريال من رأس المال.':'بعد 3 أشهر يبقى لك <b>'+fmt(net*3)+'</b> ريال فقط.';
-  s+='<br><bdi>الوكالة.ai</bdi> ستارتر: <span class="ok">'+(699/rev*100).toFixed(1)+'%</span> من دخلك.'}
+  s+='<div class="vs"><small>مع <bdi>الوكالة.ai</bdi> ستارتر بـ 699 ريال شهرياً (<b class="ok">'+(699/rev*100).toFixed(1)+'%</b> من دخلك)، يبقى لك بعد 3 أشهر</small><span class="n">'+fmt(Math.max(0,(pro-699)*3))+' <i>ريال</i></span><small>بدل '+(net<0?'خسارة '+fmt(-net*3):fmt(net*3))+' مع وكالة الإعلان.</small></div>'}
   $('#verdict').innerHTML=s}
 [rRev,rMar,rAg].forEach(function(i){i.addEventListener('input',calc)});
 
