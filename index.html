@@ -46,14 +46,15 @@ p,h1,h2{margin:0}
 .stage{position:fixed;inset:0;overflow:hidden;background:var(--ink0)}
 .stage picture,.stage img,.stage video{position:absolute;inset:0;width:100%;height:100%}
 .stage img,.stage video{object-fit:cover;object-position:50% 50%}
-.stage video,.stage .lit{opacity:0;transition:opacity .7s ease}
-.stage video.on,.stage .lit.on{opacity:1}
+.stage video,.stage .lit{opacity:0}.stage video{transition:opacity .7s ease}
+.stage video.on{opacity:1}
+.stage .glow{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 70% 60% at 50% 55%,rgba(255,200,120,.22),transparent 70%);mix-blend-mode:screen;pointer-events:none}
 .stage .push{position:absolute;inset:0;animation:push 40s ease-in-out infinite alternate}
 @keyframes push{from{transform:scale(1)}to{transform:scale(1.06)}}
-.veil{position:absolute;inset:0;transition:opacity 1.6s ease;background:
+.veil{position:absolute;inset:0;background:
   radial-gradient(ellipse 72% 58% at 50% 44%,rgba(14,14,13,.62) 0%,rgba(14,14,13,.2) 62%,rgba(14,14,13,0) 80%),
   linear-gradient(to top,rgba(16,15,14,.9) 0%,rgba(16,15,14,.4) 38%,rgba(16,15,14,.18) 68%,rgba(16,15,14,.5) 100%)}
-.revealing .veil{opacity:.35}
+
 
 /* ---------- the gate ---------- */
 .gate{position:relative;z-index:2;min-height:100svh;display:flex;align-items:center;justify-content:center;
@@ -87,25 +88,15 @@ label{display:block;margin-bottom:10px;font-size:17px;font-weight:600;color:var(
 .hint{font-size:14px;color:var(--g2);text-shadow:0 1px 10px rgba(0,0,0,.7)}
 .shake{animation:shake .45s}
 @keyframes shake{20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
-.revealing .panel{opacity:0;transform:translateY(-14px);pointer-events:none}
+.panel{will-change:opacity,transform}
 .nos{position:relative;z-index:3;margin:14px auto 0;font-size:17px;text-align:center}
 
-/* ---------- the pop-up ---------- */
-.dlg{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:16px;background:rgba(10,10,9,.3);opacity:0;transition:opacity .6s ease}
-.dlg[hidden]{display:none}
-.dlg.on{opacity:1}
-.card{width:min(540px,100%);max-height:calc(100svh - 32px);overflow:auto;text-align:start;background:rgba(28,28,27,.95);
-  border:1px solid rgba(247,247,245,.14);border-radius:28px;padding:32px 32px 26px;box-shadow:0 30px 90px rgba(0,0,0,.6);
-  transform:translateY(26px) scale(.98);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.dlg.on .card{transform:none}
-.hello{display:inline-block;margin-bottom:16px;padding:4px 14px;border-radius:999px;background:var(--m);color:var(--ink);font-size:15px;font-weight:700}
-.card h2{margin-bottom:14px;font-size:clamp(28px,4.4vw,38px);line-height:1.35;font-weight:700;text-wrap:balance}
-.card p{margin-bottom:8px;font-size:19px;line-height:1.75;color:var(--g1)}
-.card p.hi{margin-top:16px;padding-inline-start:14px;border-inline-start:4px solid var(--m);color:var(--card);font-weight:700}
-.card .err{min-height:0;font-size:15px;color:#FFB8D9}
-.card button{width:100%;min-height:56px;margin-top:22px;border:0;border-radius:999px;background:var(--m);color:var(--ink);
-  font-weight:800;font-size:19px;cursor:pointer;transition:background .2s}
-.card button:hover{background:var(--m2)}
+/* ---------- scroll to light the street ---------- */
+.track{position:relative;height:140vh}
+.cue{margin-top:6px;font-size:14px;color:var(--g2);text-shadow:0 1px 10px rgba(0,0,0,.7);display:flex;flex-direction:column;align-items:center;gap:4px}
+.cue i{display:block;width:2px;height:30px;background:linear-gradient(var(--g1),transparent);animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{50%{transform:translateY(6px);opacity:.5}}
+.gate{position:sticky;top:0}
 .fade{position:fixed;inset:0;z-index:20;background:var(--ink0);opacity:0;pointer-events:none;transition:opacity .45s ease}
 .fade.on{opacity:1}
 
@@ -123,8 +114,6 @@ bdi{unicode-bidi:isolate}
   .line{margin:20px 0 28px}
   .field input{font-size:18px;letter-spacing:.1em}
   .field button{padding:0 20px;font-size:17px;min-height:48px}
-  .card{padding:26px 22px 20px;border-radius:24px}
-  .card p{font-size:18px}
 }
 @media (max-height:560px){.logo{width:min(420px,60vw);margin-top:16px}.line{margin:14px 0 18px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -138,7 +127,7 @@ bdi{unicode-bidi:isolate}
     <picture><source media="(max-aspect-ratio: 17/20)" srcset="assets/street-dark-9x16.jpg"><img id="still" src="assets/street-dark-16x9.jpg" alt="" fetchpriority="high"></picture>
     <video id="idle" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback></video>
     <picture><source media="(max-aspect-ratio: 17/20)" srcset="assets/street-lit-9x16.jpg"><img class="lit" id="lit" src="assets/street-lit-16x9.jpg" alt="" fetchpriority="low"></picture>
-    <video id="on" muted playsinline preload="none" disablepictureinpicture disableremoteplayback></video>
+    <div class="glow" id="glow"></div>
   </div>
   <div class="veil"></div>
 </div>
@@ -149,29 +138,18 @@ bdi{unicode-bidi:isolate}
     <h1 class="logo"><svg viewBox="0 0 500 144" role="img" aria-label="الوكالة"><use href="#wm"/></svg><span class="sr">الوكالة.ai</span></h1>
     <p class="line">كل نافذة في هالشارع صنعة أحد.<b>فكرتك تقدر تشعلها. 10,000 ريال نقداً، وجوائز أخرى كثيرة لعشرة فائزين.</b></p>
     <div class="cta">
-      <button type="button" class="go" id="go">اقرأ الـBrief وشارك</button>
+      <button type="button" class="go" id="go">أشعل الشارع واقرأ الـBrief</button>
       <a class="go ghost" href="gallery.html">شارع الأفكار</a>
       <a class="go ghost" href="join.html" id="joinlink">سجّل مشروعك · دخول</a>
       <p class="hint" id="cnt">&nbsp;</p>
       <p class="hint">فكرة حملة: نص وفيديو وصور وملفات · مفتوح للجميع · التقديم حتى 26 أكتوبر · <a href="terms.html" style="color:var(--g1)">الشروط</a></p>
+      <p class="cue" aria-hidden="true">انزل لتضيء الشارع<i></i></p>
     </div>
   </div>
   <noscript><p class="nos">هذي الصفحة تحتاج JavaScript. <a href="brief.html" style="color:var(--m)">افتح الـBrief مباشرة</a>.</p></noscript>
 </main>
 
-<div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dt" aria-describedby="dd" hidden>
-  <div class="card">
-    <p class="hello" id="hello">قبل ما تبدأ</p>
-    <h2 id="dt">هذا تحدي، وأفضل فكرة تفوز.</h2>
-    <div id="dd">
-      <p>10,000 ريال نقداً وجوائز أخرى كثيرة لعشرة فائزين، والفكرة الأولى تصير حملة الإطلاق الحقيقية باسم صاحبها. وتذكّر: الموضوع مو بس فلوس.</p>
-      <p>ورا كل نافذة شفتها تنوّر، أسرة تعيش منها.</p>
-      <p class="hi">أنت فعلاً تساعد المحلات الصغيرة والمشاريع العائلية إنها تبقى، وتكبر.</p>
-    </div>
-    
-    <button type="button" id="enter">يلا، افتح الـBrief</button>
-  </div>
-</div>
+<div class="track" aria-hidden="true"></div>
 
 <div class="fade" id="fade"></div>
 <div class="bootmark" aria-hidden="true"><svg viewBox="0 0 500 144"><use href="#wm"/></svg></div>
@@ -184,26 +162,25 @@ if(window.CH){CH.track();var _m=CH.me();if(_m){var jl=document.getElementById('j
 var A='assets/';var $=function(s){return document.getElementById(s)};var doc=document.documentElement;
 var RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 var O=(window.matchMedia&&matchMedia('(max-aspect-ratio: 17/20)').matches)?'9x16':'16x9';
-var idle=$('idle'),on=$('on'),lit=$('lit'),panel=$('panel'),dlg=$('dlg'),enter=$('enter'),fade=$('fade');
-var revealing=false;
-function showDialog(){if(!dlg.hidden)return;dlg.hidden=false;panel.setAttribute('inert','');
-  if(on.classList.contains('on')&&on.paused&&!on.ended){on.classList.remove('on');lit.classList.add('on')}
-  void dlg.offsetWidth;dlg.classList.add('on');enter.focus({preventScroll:true})}
-function reveal(){revealing=true;doc.classList.add('revealing');var done=false;
-  function still(){if(done)return;done=true;lit.classList.add('on');setTimeout(showDialog,RM?0:1500)}
-  if(RM||!on.src){still();return}
-  try{on.currentTime=0}catch(e){}var p=on.play();
-  var started=function(){if(done)return;done=true;on.classList.add('on');setTimeout(function(){idle.pause()},900);
-    var d=(isFinite(on.duration)&&on.duration>0)?on.duration:6;setTimeout(showDialog,Math.max(2000,(d-1.4)*1000));on.addEventListener('ended',showDialog,{once:true});
-    setTimeout(function(){if((on.paused&&!on.ended)||on.currentTime<0.5){on.classList.remove('on');lit.classList.add('on')}},1600)};
-  if(p&&p.then)p.then(started).catch(still);else started();setTimeout(function(){if(!done)still()},2500)}
-function go(){fade.classList.add('on');setTimeout(function(){location.href='brief.html'},RM?0:420)}
-$('go').addEventListener('click',function(){if(revealing)return;if(window.CH)CH.event('landing_go');reveal()});
-enter.addEventListener('click',go);
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!dlg.hidden)go()});
-document.addEventListener('visibilitychange',function(){if(document.hidden)return;var v=revealing?(on.classList.contains('on')&&!on.ended?on:null):(idle.src?idle:null);if(v&&v.paused){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
-if(!RM){idle.src=A+'street-idle-'+O+'.mp4';idle.addEventListener('playing',function(){idle.classList.add('on')},{once:true});var p=idle.play();if(p&&p.catch)p.catch(function(){});
-  setTimeout(function(){on.src=A+'street-on-'+O+'.mp4';on.preload='auto';on.load()},1200)}
+var idle=$('idle'),lit=$('lit'),glow=$('glow'),veil=document.querySelector('.veil'),panel=$('panel'),fade=$('fade');
+var gone=false,auto=null;
+function clamp(v){return Math.max(0,Math.min(1,v))}
+function ease(t){return 1-Math.pow(1-t,3)}
+function maxY(){return Math.max(1,doc.scrollHeight-window.innerHeight)}
+function go(){if(gone)return;gone=true;if(window.CH)CH.event('landing_enter');fade.classList.add('on');setTimeout(function(){location.href='brief.html'},RM?0:450)}
+function frame(){var p=clamp(window.scrollY/maxY()),t=ease(p);
+  lit.style.opacity=t.toFixed(3);glow.style.opacity=(t*(1-t)*2.2).toFixed(3);veil.style.opacity=(1-.7*t).toFixed(3);
+  var f=clamp(p/.55);panel.style.opacity=(1-f).toFixed(3);panel.style.transform='translateY('+(-24*f).toFixed(1)+'px)';panel.style.pointerEvents=f>.6?'none':'auto';
+  if(p>=.985)go()}
+var tick=false;window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(function(){tick=false;frame()})}},{passive:true});window.addEventListener('resize',frame);
+function autoScroll(){if(auto||gone)return;var y0=window.scrollY,y1=maxY(),t0=null,D=RM?0:2600;
+  function step(ts){if(!t0)t0=ts;var k=D?clamp((ts-t0)/D):1,e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;window.scrollTo(0,y0+(y1-y0)*e);frame();if(k<1&&auto)auto=requestAnimationFrame(step);else{auto=null;go()}}
+  auto=requestAnimationFrame(step)}
+['wheel','touchstart','keydown'].forEach(function(ev){window.addEventListener(ev,function(){if(auto){cancelAnimationFrame(auto);auto=null}},{passive:true})});
+$('go').addEventListener('click',function(){if(window.CH)CH.event('landing_go');autoScroll()});
+document.addEventListener('visibilitychange',function(){if(document.hidden||!idle.src||!idle.paused)return;var p=idle.play();if(p&&p.catch)p.catch(function(){})});
+if(!RM){idle.src=A+'street-idle-'+O+'.mp4';idle.addEventListener('playing',function(){idle.classList.add('on')},{once:true});var p=idle.play();if(p&&p.catch)p.catch(function(){})}
+if(window.scrollY>0)window.scrollTo(0,0);frame();
 /* live counter */
 fetch('https://xpjxnksnqmynqueddinf.supabase.co/rest/v1/rpc/chal_stats',{method:'POST',headers:{apikey:'sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo',Authorization:'Bearer sb_publishable_5e-Vx3e9vlEdi3ydhh-0pw_7W8M6sOo','Content-Type':'application/json'},body:'{}'})
   .then(function(r){return r.json()}).then(function(s){var n=+s.registered||0,m=+s.approved||0;var d=Math.max(0,Math.ceil((new Date(s.deadline)-Date.now())/864e5));
